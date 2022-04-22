@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Content",
+    "\\Content\\custom",
+    "\\Content\\custom\\js",
+    "\\Controllers",
+    "\\Models",
+    "\\Views",
+    "\\Views\\Adm",
+    "\\Views\\Checkout"
+  ],
+  "SelectedNode": "\\Views\\Checkout\\plano.cshtml",
+  "PreviewInSolutionExplorer": false
+}
