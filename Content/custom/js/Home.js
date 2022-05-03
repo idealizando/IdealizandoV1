@@ -100,36 +100,28 @@ function CarregaInfoCards() {
                             data: [
                                 {
                                     device: data[index].LETRA,
-                                    geekbench: (data[index].PONTUACAO / (parseInt(quantidadeFeedbacks) * 5)).toFixed(2),
-                                    legenda: 'I. Inovação e Competitividade' +
-                                        ' - Aqui você vai entender se a sua ideia é boa, inovadora, viável, agrega alor e se as pessoas valorizarão os seus resultados.'
+                                    geekbench: calculaMediaPontuacao(data[index].PONTUACAO, parseInt(quantidadeFeedbacks), data[index].QTD_QUESTOES_AVALIACAO),
+                                    legenda: data[index].LEGENDA_GRAFICO
                                 },
                                 {
                                     device: data[index + 1].LETRA,
-                                    geekbench: (data[index + 1].PONTUACAO / (parseInt(quantidadeFeedbacks) * 5)).toFixed(2),
-                                    legenda: 'D - Dores e desejos' +
-                                        ' - Aqui você vai entender os problemas que a sua ideia soluciona, a facilidade de como ela atende as dores e desejos do público - alvo, a' +
-                                        ' possibilidade de atender de forma mais simples essas necessidades e as ofertas de terceiros'
-                                }, 
+                                    geekbench: calculaMediaPontuacao(data[index + 1].PONTUACAO, parseInt(quantidadeFeedbacks), data[index + 1].QTD_QUESTOES_AVALIACAO),
+                                    legenda: data[index + 1].LEGENDA_GRAFICO
+                                },
                                 {
                                     device: data[index + 2].LETRA,
-                                    geekbench: (data[index + 2].PONTUACAO / (parseInt(quantidadeFeedbacks) * 5)).toFixed(2),
-                                    legenda: 'E - Estrutura Estratégica' +
-                                        ' - Descreva aqui o caminho que você vai percorrer para conseguir operacionalizar a ideia.Como vai percorrer esse caminho? Quais são os' +
-                                        'recursos necessários? Quais as responsabilidades das partes envolvidas? A ideia favorece a cultura da inovação?'
-                                }, 
+                                    geekbench: calculaMediaPontuacao(data[index + 2].PONTUACAO, parseInt(quantidadeFeedbacks), data[index + 2].QTD_QUESTOES_AVALIACAO),
+                                    legenda: data[index + 2].LEGENDA_GRAFICO
+                                },
                                 {
                                     device: data[index + 3].LETRA,
-                                    geekbench: (data[index + 3].PONTUACAO / (parseInt(quantidadeFeedbacks) * 5)).toFixed(2),
-                                    legenda: 'A - Alvos desafiantes, específicos e mensuráveis' +
-                                        ' - Descreva aqui os resultados que a ideia vai conquistar com a sua implementação, seja específico e utilize referências mensuráveis, como' +
-                                        ' por exemplo: aumento de faturamento, aumento da base de clientes, agilidade no tempo de atendimento e etc'
-                                }, 
+                                    geekbench: calculaMediaPontuacao(data[index + 3].PONTUACAO, parseInt(quantidadeFeedbacks), data[index + 3].QTD_QUESTOES_AVALIACAO),
+                                    legenda: data[index + 3].LEGENDA_GRAFICO
+                                },
                                 {
                                     device: data[index + 4].LETRA,
-                                    geekbench: (data[index + 4].PONTUACAO / (parseInt(quantidadeFeedbacks) * 5)).toFixed(2),
-                                    legenda: 'L - Legado para o Ecossistema' +
-                                        ' Descreva aqui os impactos que a ideia vai deixar como legado, tanto na empresa quanto no seu ecossistema, ao ser implementada por completo'
+                                    geekbench: calculaMediaPontuacao(data[index + 4].PONTUACAO, parseInt(quantidadeFeedbacks), data[index + 4].QTD_QUESTOES_AVALIACAO),
+                                    legenda: data[index + 4].LEGENDA_GRAFICO
                                 }
                             ],
                             ymax: 10,
@@ -161,4 +153,10 @@ function CarregaInfoCards() {
                 Messages('error');
             }
         });
+}
+
+function calculaMediaPontuacao(pontuacao, quantidadeFeedbacks, qtdQuestoesAvaliacao) {
+    qtdQuestoesAvaliacao = qtdQuestoesAvaliacao / quantidadeFeedbacks;
+
+    return (pontuacao / (quantidadeFeedbacks * qtdQuestoesAvaliacao)).toFixed(2);
 }

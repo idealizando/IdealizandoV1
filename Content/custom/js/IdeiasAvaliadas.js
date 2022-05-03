@@ -52,11 +52,31 @@ function CarregaInfoCardsIdeiasAvaliadas() {
                         Morris.Bar({
                             element: 'graph_bar_' + data[index].ID,
                             data: [
-                                { device: data[index].LETRA, geekbench: data[index].PONTUACAO / 5 },
-                                { device: data[index + 1].LETRA, geekbench: data[index + 1].PONTUACAO / 5},
-                                { device: data[index + 2].LETRA, geekbench: data[index + 2].PONTUACAO / 5 },
-                                { device: data[index + 3].LETRA, geekbench: data[index + 3].PONTUACAO / 5 },
-                                { device: data[index + 4].LETRA, geekbench: data[index + 4].PONTUACAO / 5 }
+                                {
+                                    device: data[index].LETRA,
+                                    geekbench: (data[index].PONTUACAO / data[index].QTD_QUESTOES_AVALIACAO).toFixed(2),
+                                    legenda: data[index].LEGENDA_GRAFICO
+                                },
+                                {
+                                    device: data[index + 1].LETRA,
+                                    geekbench: (data[index + 1].PONTUACAO / data[index + 1].QTD_QUESTOES_AVALIACAO).toFixed(2),
+                                    legenda: data[index + 1].LEGENDA_GRAFICO
+                                },
+                                {
+                                    device: data[index + 2].LETRA,
+                                    geekbench: (data[index + 2].PONTUACAO / data[index + 2].QTD_QUESTOES_AVALIACAO).toFixed(2),
+                                    legenda: data[index + 2].LEGENDA_GRAFICO
+                                },
+                                {
+                                    device: data[index + 3].LETRA,
+                                    geekbench: (data[index + 3].PONTUACAO / data[index + 3].QTD_QUESTOES_AVALIACAO).toFixed(2),
+                                    legenda: data[index + 3].LEGENDA_GRAFICO
+                                },
+                                {
+                                    device: data[index + 4].LETRA,
+                                    geekbench: (data[index + 4].PONTUACAO / data[index + 4].QTD_QUESTOES_AVALIACAO).toFixed(2),
+                                    legenda: data[index + 4].LEGENDA_GRAFICO
+                                }
                             ],
                             ymax: 10,
                             xkey: 'device',
@@ -67,6 +87,15 @@ function CarregaInfoCardsIdeiasAvaliadas() {
                                 return Grafico.cor(row.y);
                             },                            
                             hideHover: 'auto',
+                            hoverCallback: function (index, options, content, row) {
+                                var hover = "<div class='morris-hover-row-label'>" + row.legenda + "</div> " +
+                                    " <div class='morris-hover-point' > " +
+                                    "<p style='font-size: 20px';> " +
+                                    " Pontuação: " + row.geekbench +
+                                    "</p > " +
+                                    "</div > ";
+                                return hover;
+                            },
                             resize: true
                         });
 
@@ -110,11 +139,31 @@ function CarregaInfoCardsIdeiasAvaliadasFeedback() {
                         Morris.Bar({
                             element: 'graph_bar_feedback_' + data[index].ID,
                             data: [
-                                { device: data[index].LETRA, geekbench:     (data[index].PONTUACAO / (parseInt(quantidadeFeedbacks) * 5)).toFixed(2)},
-                                { device: data[index + 1].LETRA, geekbench: (data[index + 1].PONTUACAO / (parseInt(quantidadeFeedbacks) * 5)).toFixed(2)},
-                                { device: data[index + 2].LETRA, geekbench: (data[index + 2].PONTUACAO / (parseInt(quantidadeFeedbacks) * 5)).toFixed(2)},
-                                { device: data[index + 3].LETRA, geekbench: (data[index + 3].PONTUACAO / (parseInt(quantidadeFeedbacks) * 5)).toFixed(2)},
-                                { device: data[index + 4].LETRA, geekbench: (data[index + 4].PONTUACAO / (parseInt(quantidadeFeedbacks) * 5)).toFixed(2)}
+                                {
+                                    device: data[index].LETRA,
+                                    geekbench: calculaMediaPontuacao(data[index].PONTUACAO, parseInt(quantidadeFeedbacks), data[index].QTD_QUESTOES_AVALIACAO),
+                                    legenda: data[index].LEGENDA_GRAFICO
+                                },
+                                {
+                                    device: data[index + 1].LETRA,
+                                    geekbench: calculaMediaPontuacao(data[index + 1].PONTUACAO, parseInt(quantidadeFeedbacks), data[index + 1].QTD_QUESTOES_AVALIACAO),
+                                    legenda: data[index + 1].LEGENDA_GRAFICO
+                                },
+                                {
+                                    device: data[index + 2].LETRA,
+                                    geekbench: calculaMediaPontuacao(data[index + 2].PONTUACAO, parseInt(quantidadeFeedbacks), data[index + 2].QTD_QUESTOES_AVALIACAO),
+                                    legenda: data[index + 2].LEGENDA_GRAFICO
+                                },
+                                {
+                                    device: data[index + 3].LETRA,
+                                    geekbench: calculaMediaPontuacao(data[index + 3].PONTUACAO, parseInt(quantidadeFeedbacks), data[index + 3].QTD_QUESTOES_AVALIACAO),
+                                    legenda: data[index + 3].LEGENDA_GRAFICO
+                                },
+                                {
+                                    device: data[index + 4].LETRA,
+                                    geekbench: calculaMediaPontuacao(data[index + 4].PONTUACAO, parseInt(quantidadeFeedbacks), data[index + 4].QTD_QUESTOES_AVALIACAO),
+                                    legenda: data[index + 4].LEGENDA_GRAFICO
+                                }
                             ],
                             ymax: 10,
                             xkey: 'device',
@@ -125,6 +174,15 @@ function CarregaInfoCardsIdeiasAvaliadasFeedback() {
                                 return Grafico.cor(row.y);
                             },                            
                             hideHover: 'auto',
+                            hoverCallback: function (index, options, content, row) {
+                                var hover = "<div class='morris-hover-row-label'>" + row.legenda + "</div> " +
+                                    " <div class='morris-hover-point' > " +
+                                    "<p style='font-size: 20px';> " +
+                                    " Pontuação: " + row.geekbench +
+                                    "</p > " +
+                                    "</div > ";
+                                return hover;
+                            },
                             resize: true
                         });
 
@@ -171,11 +229,31 @@ function CarregaInfoCardsIdeiasAvaliadasFeedbackByIdIdeia() {
                         Morris.Bar({
                             element: 'graph_bar_feedback_ideia_' + data[index].ID,
                             data: [
-                                { device: data[index].LETRA, geekbench: (data[index].PONTUACAO / (parseInt(quantidadeFeedbacks) * 5)).toFixed(2)},
-                                { device: data[index + 1].LETRA, geekbench: (data[index + 1].PONTUACAO / (parseInt(quantidadeFeedbacks) * 5)).toFixed(2) },
-                                { device: data[index + 2].LETRA, geekbench: (data[index + 2].PONTUACAO / (parseInt(quantidadeFeedbacks) * 5)).toFixed(2)},
-                                { device: data[index + 3].LETRA, geekbench: (data[index + 3].PONTUACAO / (parseInt(quantidadeFeedbacks) * 5)).toFixed(2)},
-                                { device: data[index + 4].LETRA, geekbench: (data[index + 4].PONTUACAO / (parseInt(quantidadeFeedbacks) * 5)).toFixed(2)}
+                                {
+                                    device: data[index].LETRA,
+                                    geekbench: calculaMediaPontuacao(data[index].PONTUACAO, parseInt(quantidadeFeedbacks), data[index].QTD_QUESTOES_AVALIACAO),
+                                    legenda: data[index].LEGENDA_GRAFICO
+                                },
+                                {
+                                    device: data[index + 1].LETRA,
+                                    geekbench: calculaMediaPontuacao(data[index + 1].PONTUACAO, parseInt(quantidadeFeedbacks), data[index + 1].QTD_QUESTOES_AVALIACAO),
+                                    legenda: data[index + 1].LEGENDA_GRAFICO
+                                },
+                                {
+                                    device: data[index + 2].LETRA,
+                                    geekbench: calculaMediaPontuacao(data[index + 2].PONTUACAO, parseInt(quantidadeFeedbacks), data[index + 2].QTD_QUESTOES_AVALIACAO),
+                                    legenda: data[index + 2].LEGENDA_GRAFICO
+                                },
+                                {
+                                    device: data[index + 3].LETRA,
+                                    geekbench: calculaMediaPontuacao(data[index + 3].PONTUACAO, parseInt(quantidadeFeedbacks), data[index + 3].QTD_QUESTOES_AVALIACAO),
+                                    legenda: data[index + 3].LEGENDA_GRAFICO
+                                },
+                                {
+                                    device: data[index + 4].LETRA,
+                                    geekbench: calculaMediaPontuacao(data[index + 4].PONTUACAO, parseInt(quantidadeFeedbacks), data[index + 4].QTD_QUESTOES_AVALIACAO),
+                                    legenda: data[index + 4].LEGENDA_GRAFICO
+                                }
                             ],
                             ymax: 10,
                             xkey: 'device',
@@ -186,6 +264,15 @@ function CarregaInfoCardsIdeiasAvaliadasFeedbackByIdIdeia() {
                                 return Grafico.cor(row.y);
                             },                            
                             hideHover: 'auto',
+                            hoverCallback: function (index, options, content, row) {
+                                var hover = "<div class='morris-hover-row-label'>" + row.legenda + "</div> " +
+                                    " <div class='morris-hover-point' > " +
+                                    "<p style='font-size: 20px';> " +
+                                    " Pontuação: " + row.geekbench +
+                                    "</p > " +
+                                    "</div > ";
+                                return hover;
+                            },
                             resize: true
                         });
 
@@ -211,3 +298,9 @@ $('.btn-modal-observacao').on("click", function () {
         }
     });
 });
+
+function calculaMediaPontuacao(pontuacao, quantidadeFeedbacks, qtdQuestoesAvaliacao) {
+    qtdQuestoesAvaliacao = qtdQuestoesAvaliacao / quantidadeFeedbacks;
+
+    return (pontuacao / (quantidadeFeedbacks * qtdQuestoesAvaliacao)).toFixed(2);
+}

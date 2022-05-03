@@ -17,11 +17,13 @@ namespace WebApp.Controllers
                 return RedirectToAction("Index", "Login");
 
             ViewBag.IsHome = "active";
-            ViewBag.QntCards = BuscarQuantidadeCards();
-
+            
             AvaliacaoEnum avaliacaoEnum = AvaliacaoEnum.FEEDBACK;
+
+            var mediaPontuacaoFeedbacks = new AvaliacaoController().BuscarMediaPontuacaoIdeiasAvaliadasComQuantidadeFeedback(avaliacaoEnum, HttpContext.Session["Id"].ToString());
+
             ViewBag.InfoCards = BuscarInfoCardsIdeiasAvaliadas(avaliacaoEnum);
-            ViewBag.MediaPontuacaoFeedbacks = new AvaliacaoController().BuscarMediaPontuacaoIdeiasAvaliadasComQuantidadeFeedback(avaliacaoEnum, HttpContext.Session["Id"].ToString());
+            ViewBag.MediaPontuacaoFeedbacks = mediaPontuacaoFeedbacks;
 
             EndController("HomeController", "Index");
 
@@ -33,11 +35,6 @@ namespace WebApp.Controllers
         {
             var ideia = new Ideia().GetTotaisIdeia(HttpContext.Session["Id"].ToString(), HttpContext.Session["Email"].ToString());
             return Json(ideia, JsonRequestBehavior.AllowGet);
-        }
-
-        public int BuscarQuantidadeCards()
-        {
-            return new Ideia().BuscarQntdCards(HttpContext.Session["Id"].ToString());
         }
 
         [HttpPost]

@@ -136,34 +136,7 @@ namespace WebApp.Controllers
             ViewBag.MediaPontuacaoFeedbacks = BuscarMediaPontuacaoIdeiasAvaliadasComQuantidadeFeedback(avaliacaoEnum, HttpContext.Session["Id"].ToString());
 
             return View();
-        }
-
-        [HttpGet]
-        public ActionResult IdeiaFeedback(string idIdeia)
-        {
-            if (!Autorized())
-                return RedirectToAction("Index", "Login");
-
-            if (idIdeia != null && idIdeia != "")
-            {
-                var newIdeia = new Ideia().GetIdHash(idIdeia);
-
-                List<Ideia> listaIdeias = new Ideia().BuscarIdeias(newIdeia);
-                ViewBag.Ideia = Json(listaIdeias, JsonRequestBehavior.AllowGet);
-                ViewBag.Respostas = new Ideia().BuscarRespostas(newIdeia);                
-                ViewBag.NomesCoCriadores = new Ideia().BuscarNomesCoCriadores(newIdeia);
-                
-                AvaliacaoEnum avaliacaoEnum = AvaliacaoEnum.FEEDBACK;                
-                ViewBag.InfoCardsIdeiasAvaliadasFeedbacks = BuscarInfoCardsIdeiasAvaliadas(avaliacaoEnum, newIdeia);
-                ViewBag.MediaPontuacaoFeedbacks = BuscarMediaPontuacaoIdeiasAvaliadasComQuantidadeFeedback(avaliacaoEnum, HttpContext.Session["Id"].ToString(), newIdeia);
-                ViewBag.QtdFeedbackRecebido = BuscarQtdFeedbacksPorIdeia(newIdeia);
-
-                ViewBag.MediaPontuacaoQuestaoIdeia = BuscarMediaPontuacaoQuestaoIdeia(newIdeia, listaIdeias);
-                ViewBag.ComentariosAvaliacao = new Avaliacao().BuscarComentariosAvaliacao(newIdeia);
-            }
-
-            return View();
-        }
+        }       
 
         [HttpGet]
         public ActionResult IdeiaFeedbacks(string idIdeia)
