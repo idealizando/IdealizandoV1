@@ -83,37 +83,36 @@ namespace WebApp.Models
                 try
                 {
 
-                    var sql = "select                                                                          " +
-                           "        avaliacoes.id_avaliador as id_usuario_avaliador,                           " +
-                           "        avaliacoes.nome_avaliador as nome_avaliador,                               " +
-                           "        avaliacoes.data_avaliacao as data_avaliacao,                               " +
-	                       "        sum(I) / total_questoes as I,                                              " +
-                           "        sum(D) / total_questoes as D,                                              " +
-                           "        sum(E) / total_questoes as E,                                              " +
-                           "        sum(A) / total_questoes as A,                                              " +
-                           "        sum(L) / total_questoes as L                                               " +
-                           "    from                                                                           " +
-                           "        (select                                                                    " +                           
-                           "            u.id as id_avaliador,                                                  " +
-                           "            a.data_hora as data_avaliacao,                                         " +
-                           "            u.nome as nome_avaliador,                                              " +
-		                   "            case when q.letra = 'I' then sum(a.pontuacao) else 0 end as I,         " +
-		                   "            case when q.letra = 'D' then sum(a.pontuacao) else 0 end as D,         " +
-		                   "            case when q.letra = 'E' then sum(a.pontuacao) else 0 end as E,         " +
-		                   "            case when q.letra = 'A' then sum(a.pontuacao) else 0 end as A,         " +
-		                   "            case when q.letra = 'L' then sum(a.pontuacao) else 0 end as L          " +                           
-                           "        from avaliacao_ideias a                                                    " +                           
-                           "        inner                                                                      " +
-                           "        join usuarios u on u.id = a.id_usuario_avaliador                           " +                           
-                           "        inner                                                                      " +
-                           "        join questoes_avaliacao_ideias q on q.id = a.id_questao_avaliacao_ideias   " +
-                           "                                                                                   " +
-                           "        where id_projeto = @id                                                     " +
-                           "          and q.ativo    = 'S'                                                     " +
-                           "        group by q.letra, u.id                                                     " +
-                           "        order by u.id, q.id_questao_ideias) avaliacoes,                            " +
-                           "        (select count(*) as total_questoes from questoes_ideias) as total_questoes " +
-                           "    group by avaliacoes.id_avaliador                                                ";
+                    var sql = "select                                                                                                   " +
+                           "        avaliacoes.id_avaliador as id_usuario_avaliador,                                                    " +
+                           "        avaliacoes.nome_avaliador as nome_avaliador,                                                        " +
+                           "        avaliacoes.data_avaliacao as data_avaliacao,                                                        " +
+	                       "        sum(I) as I,                                                                                        " +
+                           "        sum(D) as D,                                                                                        " +
+                           "        sum(E) as E,                                                                                        " +
+                           "        sum(A) as A,                                                                                        " +
+                           "        sum(L) as L                                                                                         " +
+                           "    from                                                                                                    " +
+                           "        (select                                                                                             " +                           
+                           "            u.id as id_avaliador,                                                                           " +
+                           "            a.data_hora as data_avaliacao,                                                                  " +
+                           "            u.nome as nome_avaliador,                                                                       " +
+                           "            case when q.letra = 'I' then sum(a.pontuacao) / count(q.id_questao_ideias) else 0 end as I,     " +
+                           "            case when q.letra = 'D' then sum(a.pontuacao) / count(q.id_questao_ideias) else 0 end as D,     " +
+                           "            case when q.letra = 'E' then sum(a.pontuacao) / count(q.id_questao_ideias) else 0 end as E,     " +
+                           "            case when q.letra = 'A' then sum(a.pontuacao) / count(q.id_questao_ideias) else 0 end as A,     " +
+                           "            case when q.letra = 'L' then sum(a.pontuacao) / count(q.id_questao_ideias) else 0 end as L      " +                           
+                           "        from avaliacao_ideias a                                                                             " +                           
+                           "        inner                                                                                               " +
+                           "        join usuarios u on u.id = a.id_usuario_avaliador                                                    " +                           
+                           "        inner                                                                                               " +
+                           "        join questoes_avaliacao_ideias q on q.id = a.id_questao_avaliacao_ideias                            " +
+                           "                                                                                                            " +
+                           "        where id_projeto = @id                                                                              " +
+                           "          and q.ativo    = 'S'                                                                              " +
+                           "        group by q.letra, u.id                                                                              " +
+                           "        order by u.id, q.id_questao_ideias) avaliacoes                                                      " +                           
+                           "    group by avaliacoes.id_avaliador                                                                         ";
 
                     MySqlCommand cmd = new MySqlCommand(sql, db._conn);
 

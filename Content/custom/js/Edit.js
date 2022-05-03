@@ -244,6 +244,7 @@
 
 function isPodeAbrirModalRespostaPergunta(id_pergunta) {    
     let imgEdit = document.getElementById('edit_id_' + id_pergunta);    
+    let respostaEdit = document.getElementById('resposta_pergunta_' + id_pergunta);
 
     if (imgEdit == undefined || imgEdit == null) {
         return;
@@ -252,11 +253,17 @@ function isPodeAbrirModalRespostaPergunta(id_pergunta) {
     if (!isTagSolucaoSelecionado()) {
         imgEdit.removeAttribute("data-toggle");
         imgEdit.removeAttribute("data-target");
+
+        respostaEdit.removeAttribute("data-toggle");
+        respostaEdit.removeAttribute("data-target");
         return false;
     }
 
     imgEdit.setAttribute("data-toggle", "modal");
     imgEdit.setAttribute("data-target", "#Modal_Resposta_Pergunta");
+
+    respostaEdit.setAttribute("data-toggle", "modal");
+    respostaEdit.setAttribute("data-target", "#Modal_Resposta_Pergunta");
 
     return true;
 }
