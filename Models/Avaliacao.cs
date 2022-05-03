@@ -105,10 +105,11 @@ namespace WebApp.Models
                            "        from avaliacao_ideias a                                                    " +                           
                            "        inner                                                                      " +
                            "        join usuarios u on u.id = a.id_usuario_avaliador                           " +                           
-                           "    inner                                                                          " +
+                           "        inner                                                                      " +
                            "        join questoes_avaliacao_ideias q on q.id = a.id_questao_avaliacao_ideias   " +
                            "                                                                                   " +
                            "        where id_projeto = @id                                                     " +
+                           "          and q.ativo    = 'S'                                                     " +
                            "        group by q.letra, u.id                                                     " +
                            "        order by u.id, q.id_questao_ideias) avaliacoes,                            " +
                            "        (select count(*) as total_questoes from questoes_ideias) as total_questoes " +

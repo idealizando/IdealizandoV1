@@ -1,14 +1,16 @@
 ﻿$(document).ready(function () {
 
     let urlAtual = window.location.href;
-    if (urlAtual.includes($URL_PRINCIPAL + 'Avaliacao/Ideias/?idIdeia')) {
+    if (urlAtual.toUpperCase().includes(($URL_PRINCIPAL + 'avaliacao/ideias/?idIdeia').toUpperCase())) {
         
         CarregarDescricaoProblemaTelaAvaliacao();
         CarregarSolucoesTelaAvaliacao();
+        CarregarAnexosAvalicao();
 
         $('.btn-enviar-avaliacao').on("click", function () {
 
-            let idTag = $('.tag_avaliacao.chip--active').attr("data-id-tag");
+            
+            let idTag = $('.chip_solucao.chip--active').attr("data-id-tag");
 
             if (idTag == undefined || idTag == null) {
                 Messages('warning', 'ATENÇÃO!', 'Obrigatório selecionar uma tag do grupo de avaliadores!');
@@ -24,7 +26,7 @@
                 return;
             }
 
-            gravaEnviaAvaliacao(idTag);
+            gravaEnviaAvaliacao(null);
         });
     }     
 });
@@ -169,4 +171,49 @@ function CarregarSolucoesTelaAvaliacao() {
                 Messages('error');
             }
         });
+}
+
+function CarregarAnexosAvalicao() {
+
+    let idIDeia = $('#id_ideia').html();
+    $.ajax(
+        {
+            type: 'GET',
+            url: $URL_PRINCIPAL + 'Ideia/GetAnexos?idIdeia=' + idIDeia,
+            async: true,
+            contentType: "application/json; charset=utf-8",
+            datatype: 'json',
+            beforeSend: function (xhr) {
+                $('#grid_anexos_ideia_conteudo_avaliacao').innerHTML = '';
+            },
+            success: function (data) {
+
+                if (data.length > 0) {
+
+                    for (var i = 0; i < data.length; i++) {
+                        let tr = document.createElement("tr");
+                        let td1 = document.createElement("td");
+                        let td2 = document.createElement("td");
+                        let a = document.createElement("a");
+
+                        td1.textContent = data[i];
+                        a.href = $URL_PRINCIPAL + 'Files_PDF/' + data[i] + '.pdf';
+                        a.setAttribute("target", "_blanck");
+                        a.text = "Baixar";
+                        td2.appendChild(a);
+
+                        tr.appendChild(td1);
+                        tr.appendChild(td2);
+
+                        document.getElementById("grid_anexos_ideia_conteudo_avaliacao").appendChild(tr);
+                    }
+                }
+
+
+            },
+            error: function () {
+                Messages('error');
+            }
+        }
+    );
 }

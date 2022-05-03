@@ -9,16 +9,16 @@
         }
         else
         {
-            <div class="row">                
+            <div class="row">
             </div>
 
             <!-- CABEÇALHO -->
-            <div class="container_cabecalho_edit">                
+            <div class="container_cabecalho_edit">
                 <div class="row cabecalho_edit_top">
                     <div class="col-md-12">NOME DO PROJETO: <p>&nbsp @ViewBag.IdeiasAvaliacao.Data[0].NOMEPROJETO.ToUpper()</p></div>
                     <div class="col-md-12">LÍDER:           <p>&nbsp @ViewBag.IdeiasAvaliacao.Data[0].LIDER.ToUpper()</p></div>
                     <div class="col-md-12">COCRIADORES:     <p>&nbsp @ViewBag.NomesCoCriadores</p></div>
-                </div>                                
+                </div>
             </div>
             <br />
 
@@ -28,7 +28,7 @@
                 <img id="img_loading_descricao_problema" src="~/images/icon_loading.gif" width="30" height="30" style="margin-bottom: -10px;" />
 
                 <div class="row cabecalho_edit_top">
-                    <div class="col-md-12">DESCRIÇÃO DO PROBLEMA:</div>
+                    <div class="col-md-12">Descreva o problema que você pretende solucionar:</div>
                 </div>
 
                 <div class="row cabecalho_edit_bottom" style="margin-top: 10px;">
@@ -48,12 +48,11 @@
                 <div class="row cabecalho_edit_top">
                     <div class="col-md-12">IDEIAS QUE PODEM SOLUCIONAR O PROBLEMA:</div>
                 </div>
+                
+                <div class="row cabecalho_edit_bottom chips__choice solucao_ideia_tags" style="margin-top: 10px; display:flex;">
 
-                <div class="row cabecalho_edit_bottom" style="margin-top: 10px;">
-                    <div class="col-md-12 col-sm-12">
-                        <div class="chips__choice solucao_ideia_tags"></div>
-                    </div>
                 </div>
+
             </div>
 
             if (ViewBag.IdeiasAvaliacao.Data[0].LINKPIT != "")
@@ -76,7 +75,7 @@
                 </div>
             }
 
-            <div class="row">
+            <div class="row" hidden>
                 <div class="col col-md-3"></div>
 
                 <div class="col col-md-6" style="margin-top: 10px;">
@@ -136,6 +135,10 @@
                                     <h2 class="questoes_avaliacao_ideias">@ViewBag.QuestoesAvaliacaoIdeias[k].TEXTOPRATICA</h2> <!-- Codigo provisorio, ajustar depois que ajustarmos os cadastros -->
                                 </div>
 
+                                <div>
+                                    <h2 style="font-size:1em; margin-left: 20px; margin-bottom: 10px">@ViewBag.QuestoesAvaliacaoIdeias[k].SUBTITULO</h2> 
+                                </div>
+
                                 <div style="margin-bottom: 30px;">
                                     <div class="div_pai_star">
                                         @{
@@ -177,6 +180,28 @@
             <div class="row" style="margin-left:5px; margin-right:5px;">
                 <textarea class="col-12 ideia_textarea_nv2" type="text" name="observacao" id="observacao" required cols="6" rows="3" maxlength="600" style="height:100px;"> </textarea>
             </div>
+
+            <br />
+            <div class="row" id="grid_anexos_ideia_avaliacao">
+                
+                <div class="col col-md-5 col-sm-5" style="margin-left:5px;">
+                    <h6 style="font-weight:bold;"> Anexos</h6>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="grid_anexos_ideia_conteudo_avaliacao">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col col-md-7 col-sm-7"></div>
+
+            </div>
+            <br />
+
 
             <br />
             <div class="row">

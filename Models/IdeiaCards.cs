@@ -16,12 +16,14 @@ namespace WebApp.Models
         public string IDHASH { get; set; }
         public string NOME_IDEIA { get; set; }
         public string LETRA { get; set; }
-        public string PONTUACAO { get; set; }
+        public int PONTUACAO { get; set; }
         public string ORDEM { get; set; }
         public string TIPOIDEIA { get; set; }
         public string URLIMAGEM { get; set; }
         public string STATUS { get; set; }
         public double MEDIA { get; set; }
+        public string LEGENDA_GRAFICO { get; set; }
+        public int QTD_QUESTOES_AVALIACAO { get; set; }
 
 
         public IdeiaCards()
@@ -30,12 +32,14 @@ namespace WebApp.Models
             IDHASH = "";
             NOME_IDEIA = "";
             LETRA = "";
-            PONTUACAO = "";
+            PONTUACAO = 0;
             ORDEM = "";
             TIPOIDEIA = "";
             URLIMAGEM = "";
             STATUS = "";
             MEDIA = 0;
+            LEGENDA_GRAFICO = "";
+            QTD_QUESTOES_AVALIACAO = 0;
         }
 
         public List<IdeiaCards> BuscarIdeiasConcluidas(string idUsuarioLogado)

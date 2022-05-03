@@ -35,6 +35,7 @@ namespace WebApp.Models
         public string TEXTOIDEIA { get; set; }
         public string OBSERVACAO { get; set; }
         public int IDTAGS { get; set; }
+        public string SUBTITULO { get; set; }
 
         public Ideia()
         {
@@ -60,6 +61,7 @@ namespace WebApp.Models
             TEXTOIDEIA = "";
             OBSERVACAO = "";
             IDTAGS = 0;
+            SUBTITULO = "";
         }
 
         public bool VerificaContratoIdeias(int master_idUsuario)
@@ -109,85 +111,78 @@ namespace WebApp.Models
                 try
                 {
 
-                    // Valida usabilidade do Contrato
-                    // True => pode adicionar
-                    if (VerificaContratoIdeias(Convert.ToInt32(HttpContext.Current.Session["master_idUsuario"])))
+                    var sql = "INSERT INTO projetos (nome_projeto, id_usuario, tipo_projeto, data_hora, linkpit, lider, status, master_idusuario) " +
+                                "               VALUES(@nome_projeto, @id_usuario, @tipo_projeto, @data_hora, @linkpit, @lider, @status, @master_idusuario) ";
+                    using (MySqlCommand cmd = new MySqlCommand(sql, db._conn))
                     {
-                        // PROJETO
-                        var sql = "INSERT INTO projetos (nome_projeto, id_usuario, tipo_projeto, data_hora, linkpit, lider, status, master_idusuario) " +
-                                    "               VALUES(@nome_projeto, @id_usuario, @tipo_projeto, @data_hora, @linkpit, @lider, @status, @master_idusuario) ";
-                        using (MySqlCommand cmd = new MySqlCommand(sql, db._conn))
-                        {
-                            db.AbrirConexao();
-                            cmd.Parameters.AddWithValue("@nome_projeto", this.NOMEPROJETO);
-                            cmd.Parameters.AddWithValue("@id_usuario", HttpContext.Current.Session["Id"].ToString());
-                            cmd.Parameters.AddWithValue("@tipo_projeto", this.TIPOPROJETO);
-                            cmd.Parameters.AddWithValue("@linkpit", this.LINKPIT);
-                            cmd.Parameters.AddWithValue("@data_hora", DateTime.Now);
-                            cmd.Parameters.AddWithValue("@lider", HttpContext.Current.Session["Nome"].ToString());
-                            cmd.Parameters.AddWithValue("@status", this.STATUS);
-                            cmd.Parameters.AddWithValue("@master_idusuario", HttpContext.Current.Session["master_idUsuario"].ToString());
+                        db.AbrirConexao();
+                        cmd.Parameters.AddWithValue("@nome_projeto", this.NOMEPROJETO);
+                        cmd.Parameters.AddWithValue("@id_usuario", HttpContext.Current.Session["Id"].ToString());
+                        cmd.Parameters.AddWithValue("@tipo_projeto", this.TIPOPROJETO);
+                        cmd.Parameters.AddWithValue("@linkpit", this.LINKPIT);
+                        cmd.Parameters.AddWithValue("@data_hora", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@lider", HttpContext.Current.Session["Nome"].ToString());
+                        cmd.Parameters.AddWithValue("@status", this.STATUS);
+                        cmd.Parameters.AddWithValue("@master_idusuario", HttpContext.Current.Session["master_idUsuario"].ToString());
 
-                            cmd.ExecuteNonQuery();
-                            idprojeto = cmd.LastInsertedId;
-                            cmd.Connection.Close();
-                        }
-
-                        /*
-                        // PERGUNTAS
-                        sql = "INSERT INTO cadastro_ideias (email_avaliador, resposta, id_projeto, id_questao_ideias, data_hora) " +
-                                    "                  VALUES(@email_avaliador, @resposta, @id_projeto, @id_questao_ideias, @data_hora) ";
-                        using (MySqlCommand cmd = new MySqlCommand(sql, db._conn))
-                        {
-                            db.AbrirConexao();
-                            for (int i = 0; i < 5; i++)
-                            {
-                                cmd.Parameters.AddWithValue("@email_avaliador", HttpContext.Current.Session["Email"].ToString());
-                                cmd.Parameters.AddWithValue("@id_projeto", idprojeto);
-                                cmd.Parameters.AddWithValue("@data_hora", DateTime.Now);
-                                switch (i)
-                                {
-                                    case 0:
-                                        {
-                                            cmd.Parameters.AddWithValue("@resposta", this.TEXTOIDEIAINOVADORA);
-                                            cmd.Parameters.AddWithValue("@id_questao_ideias", 1);
-                                            break;
-                                        }
-                                    case 1:
-                                        {
-                                            cmd.Parameters.AddWithValue("@resposta", this.TEXTOPROBLEMAS);
-                                            cmd.Parameters.AddWithValue("@id_questao_ideias", 2);
-                                            break;
-                                        }
-                                    case 2:
-                                        {
-                                            cmd.Parameters.AddWithValue("@resposta", this.TEXTOPRATICA);
-                                            cmd.Parameters.AddWithValue("@id_questao_ideias", 3);
-                                            break;
-                                        }
-                                    case 3:
-                                        {
-                                            cmd.Parameters.AddWithValue("@resposta", this.TEXTORESULTADOS);
-                                            cmd.Parameters.AddWithValue("@id_questao_ideias", 4);
-                                            break;
-                                        }
-                                    case 4:
-                                        {
-                                            cmd.Parameters.AddWithValue("@resposta", this.TEXTOIMPACTO);
-                                            cmd.Parameters.AddWithValue("@id_questao_ideias", 5);
-                                            break;
-                                        }
-                                }
-
-                                cmd.ExecuteNonQuery();
-                                cmd.Parameters.Clear();
-                            }
-                            cmd.Connection.Close();
-                        }
-                        */
-                        HttpContext.Current.Session["IdIdeiaCadastrada"] = idprojeto;
+                        cmd.ExecuteNonQuery();
+                        idprojeto = cmd.LastInsertedId;
+                        cmd.Connection.Close();
                     }
 
+                    // PERGUNTAS
+                    sql = "INSERT INTO cadastro_ideias (email_avaliador, resposta, id_projeto, id_questao_ideias, data_hora) " +
+                            "                      VALUES(@email_avaliador, @resposta, @id_projeto, @id_questao_ideias, @data_hora) ";
+                    using (MySqlCommand cmd = new MySqlCommand(sql, db._conn))
+                    {
+                        db.AbrirConexao();
+                        for (int i = 0; i < 5; i++)
+                        {
+                            cmd.Parameters.AddWithValue("@email_avaliador", HttpContext.Current.Session["Email"].ToString());
+                            cmd.Parameters.AddWithValue("@id_projeto", idprojeto);
+                            cmd.Parameters.AddWithValue("@data_hora", DateTime.Now);
+                            switch (i)
+                            {
+                                case 0:
+                                    {
+                                        cmd.Parameters.AddWithValue("@resposta", this.TEXTOIDEIAINOVADORA);
+                                        cmd.Parameters.AddWithValue("@id_questao_ideias", 1);
+                                        break;
+                                    }
+                                case 1:
+                                    {
+                                        cmd.Parameters.AddWithValue("@resposta", this.TEXTOPROBLEMAS);
+                                        cmd.Parameters.AddWithValue("@id_questao_ideias", 2);
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        cmd.Parameters.AddWithValue("@resposta", this.TEXTOPRATICA);
+                                        cmd.Parameters.AddWithValue("@id_questao_ideias", 3);
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        cmd.Parameters.AddWithValue("@resposta", this.TEXTORESULTADOS);
+                                        cmd.Parameters.AddWithValue("@id_questao_ideias", 4);
+                                        break;
+                                    }
+                                case 4:
+                                    {
+                                        cmd.Parameters.AddWithValue("@resposta", this.TEXTOIMPACTO);
+                                        cmd.Parameters.AddWithValue("@id_questao_ideias", 5);
+                                        break;
+                                    }
+                            }
+
+                            cmd.ExecuteNonQuery();
+                            cmd.Parameters.Clear();
+                        }
+
+                        cmd.Connection.Close();
+                    }
+
+                    HttpContext.Current.Session["IdIdeiaCadastrada"] = idprojeto;
                     return idprojeto;
 
                 }
@@ -213,7 +208,7 @@ namespace WebApp.Models
                 {
                     #region [TOTAIS PEDIDO]
 
-                    var sql = "SELECT count(*)QTD FROM projetos WHERE id_usuario = @usuario and status = "+ Convert.ToInt32(StatusEnum.AVALIACAO);
+                    var sql = "SELECT count(*)QTD FROM projetos WHERE id_usuario = @usuario and status = " + Convert.ToInt32(StatusEnum.AVALIACAO);
                     MySqlCommand cmd = new MySqlCommand(sql, db._conn);
                     cmd.Parameters.AddWithValue("@usuario", idUser);
 
@@ -385,7 +380,7 @@ namespace WebApp.Models
                         item.ID = dr["ID"].ToString();
                         item.NOME_IDEIA = dr["NOME_PROJETO"].ToString();
                         item.LETRA = dr["LETRA"].ToString();
-                        item.PONTUACAO = dr["PONTUACAO"].ToString();
+                        item.PONTUACAO = Convert.ToInt32(dr["PONTUACAO"].ToString());
                         item.ORDEM = dr["ORDEM"].ToString();
                         InfoCards.Add(item);
                     }
@@ -420,7 +415,7 @@ namespace WebApp.Models
                               "  inner join usuarios u on u.email = c.email_avaliador " +
                               "  where u.id = @usuario                                " +
                               "  and p.id_usuario <> @usuario                         " +
-                              "  and p.id not in (select distinct id_projeto          " + 
+                              "  and p.id not in (select distinct id_projeto          " +
                               "                      from avaliacao_ideias            " +
                               "                   where id_usuario_avaliador = @usuario) " +
                               "  order by p.data_hora desc                            ";
@@ -477,6 +472,15 @@ namespace WebApp.Models
                               "  inner join projetos p on p.id = c.id_projeto               " +
                               "  inner join questoes_ideias q on q.id = c.id_questao_ideias " +
                               "  where p.id = @projeto                                      " +
+                              "    and trim(c.resposta) <> ''                               " +
+                              "  group by  p.id,                                            " +
+                              "            p.nome_projeto,                                  " +
+                              "            p.lider,                                         " +
+                              "            c.id_questao_ideias,                             " +
+                              "            c.resposta,                                      " +
+                              "            q.titulo,                                        " +
+                              "            p.linkpit,                                       " +
+                              "            q.ordem                                          " +    
                               "  order by q.ordem asc                                       ";
 
                     MySqlCommand cmd = new MySqlCommand(sql, db._conn);
@@ -564,6 +568,7 @@ namespace WebApp.Models
                               "  inner join questoes_ideias q on q.id = c.id_questao_ideias           " +
                               "  inner join questoes_avaliacao_ideias a on a.id_questao_ideias = q.id " +
                               "  where c.id = @ideia                                                  " +
+                              "    and a.ativo = 'S'                                                  " +
                               "  order by a.ordem asc                                                 ";
 
                     MySqlCommand cmd = new MySqlCommand(sql, db._conn);
@@ -614,8 +619,9 @@ namespace WebApp.Models
                 {
                     var sql = " select q.id id_questao_avaliacao_ideia, " +
                                 " q.questao questao, " +
-                                " q.id_questao_ideias id_questao_ideia " +
-                                " from questoes_avaliacao_ideias q";
+                                " q.id_questao_ideias id_questao_ideia, " +
+                                " q.subtitulo subtitulo                 " +
+                                " from questoes_avaliacao_ideias q where q.ativo = 'S' ";
 
                     MySqlCommand cmd = new MySqlCommand(sql, db._conn);
 
@@ -630,6 +636,7 @@ namespace WebApp.Models
                         item.IDQUESTAOAVALIACAOIDEIA = Convert.ToInt32(dr["id_questao_avaliacao_ideia"]);
                         item.TEXTOPRATICA = dr["questao"].ToString();
                         item.ID_QUESTAO_IDEIAS = Convert.ToInt32(dr["id_questao_ideia"]);
+                        item.SUBTITULO = dr["subtitulo"].ToString();
 
                         Ideia.Add(item);
                     }
@@ -706,7 +713,7 @@ namespace WebApp.Models
         public long CadastrarAvaliacao(List<Ideia> listIdeia, string idUsuario)
         {
             var db = new ClassDb();
-            long idAvaliacao = 0;            
+            long idAvaliacao = 0;
             int idProjeto = listIdeia[0].IDPROJETO;
 
             try
@@ -753,7 +760,7 @@ namespace WebApp.Models
             }
 
         }
-        
+
         public List<Ideia> BuscarIdeiasCoCriador(string idProjeto, string idQuestaoIdeia = "0")
         {
             var db = new ClassDb();
@@ -980,7 +987,7 @@ namespace WebApp.Models
             }
         }
         public bool AddDescricaoCardCoCriador(CardCoCriacao param, string[] coresCard)
-        {            
+        {
             var db = new ClassDb();
             try
             {
@@ -1113,7 +1120,7 @@ namespace WebApp.Models
                     while (dr.Read())
                     {
                         corCard = dr["cor_card"].ToString();
-                    }                    
+                    }
 
                     cmd.Connection.Close();
                     db.FecharConexao();
@@ -1141,10 +1148,10 @@ namespace WebApp.Models
                 try
                 {
                     var sql = "select distinct cor_card           " +
-                              "  from resposta_cocriadores a      " +                              
+                              "  from resposta_cocriadores a      " +
                               " where a.id_projeto = @id_projeto  ";
 
-                    MySqlCommand cmd = new MySqlCommand(sql, db._conn);                    
+                    MySqlCommand cmd = new MySqlCommand(sql, db._conn);
                     cmd.Parameters.AddWithValue("@id_projeto", idIdeia);
 
                     db.AbrirConexao();
@@ -1177,15 +1184,15 @@ namespace WebApp.Models
         }
 
         private string getNovaCorCard(List<string> listaCorCard, string[] coresCard)
-        {            
+        {
             List<string> copiaCoresCard = coresCard.ToList();
 
             foreach (var cor in listaCorCard)
             {
-                copiaCoresCard.Remove(cor);                
+                copiaCoresCard.Remove(cor);
             }
 
-            return copiaCoresCard[0];            
+            return copiaCoresCard[0];
         }
 
         public string BuscarNomesCoCriadores(string idIdeia)
@@ -1207,7 +1214,7 @@ namespace WebApp.Models
                               "   inner join resposta_cocriadores b on b.id_projeto = a.id   " +
                               "   inner join usuarios c            on c.id = b.id_usuario    " +
                               "   where a.id = @id_ideia                                     " +
-                              "   order by nome                                              " ;
+                              "   order by nome                                              ";
 
                     MySqlCommand cmd = new MySqlCommand(sql, db._conn);
                     cmd.Parameters.AddWithValue("@id_ideia", idIdeia);
@@ -1302,11 +1309,14 @@ namespace WebApp.Models
                               " q.letra,                                                                        " +
                               " sum(a.pontuacao)pontuacao,                                                      " +
                               " b.hash,                                                                         " +
-                              " q.ordem                                                                         " +
+                              " q.ordem,                                                                        " +
+                              " l.legenda,                                                                      " +
+                              " count(q.id) qtd_questoes_avaliacao                                              " +
                               "  from avaliacao_ideias a                                                        " +
                               "  inner join projetos p on p.id                  = a.id_projeto                  " +
                               "  inner join questoes_avaliacao_ideias q on q.id = a.id_questao_avaliacao_ideias " +
-                              "  inner join hash_registro b on b.id_registro    = p.id                          ";
+                              "  inner join hash_registro b on b.id_registro    = p.id                          " +
+                              "  inner join legenda_grafico l on l.id_questao_ideias = q.id_questao_ideias      ";
 
                     if (idIdeia == "0")
                     {
@@ -1346,8 +1356,10 @@ namespace WebApp.Models
                         item.IDHASH = dr["HASH"].ToString();  //new Ideia().GetHashId(item.ID);
                         item.NOME_IDEIA = dr["NOME_PROJETO"].ToString();
                         item.LETRA = dr["LETRA"].ToString();
-                        item.PONTUACAO = dr["PONTUACAO"].ToString();
+                        item.PONTUACAO = Convert.ToInt32(dr["PONTUACAO"]);
                         item.ORDEM = dr["ORDEM"].ToString();
+                        item.LEGENDA_GRAFICO = dr["LEGENDA"].ToString();
+                        item.QTD_QUESTOES_AVALIACAO = Convert.ToInt32(dr["QTD_QUESTOES_AVALIACAO"]);
                         InfoCards.Add(item);
                     }
                     cmd.Connection.Close();
@@ -1681,7 +1693,7 @@ namespace WebApp.Models
 
                     db.AbrirConexao();
                     MySqlDataReader dr;
-                    
+
                     dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
                     while (dr.Read())
@@ -1709,7 +1721,7 @@ namespace WebApp.Models
         {
             string linkPronto = "";
             string link = this.LINKPIT;
-            if(link.Trim() != "" && (link.ToLower().Contains("youtube") || link.ToLower().Contains("youtu.be")) )
+            if (link.Trim() != "" && (link.ToLower().Contains("youtube") || link.ToLower().Contains("youtu.be")))
             {
                 //string tipoLink1 = "https://www.youtube.com/watch?v=ypQZV03l80g&ab_channel=GravityMusic";
                 //string tipoLink2 = "https://youtu.be/ypQZV03l80g";
@@ -1718,7 +1730,7 @@ namespace WebApp.Models
                     link = link.Replace("watch?v=", "").Replace("&", "/");
 
                 var list = link.Split('/');
-                linkPronto = "https://www.youtube.com/embed/" + list[ list.Count() - 1 ];
+                linkPronto = "https://www.youtube.com/embed/" + list[list.Count() - 1];
 
             }
             this.LINKPIT = linkPronto;
@@ -1781,7 +1793,7 @@ namespace WebApp.Models
                     db.FecharConexao();
 
                     sql = "select * from cadastro_ideias where id_projeto = @idIdeia order by id_questao_ideias asc";
-                    
+
                     cmd = new MySqlCommand(sql, db._conn);
                     cmd.Parameters.AddWithValue("@idIdeia", idIdeia);
 
@@ -1789,7 +1801,7 @@ namespace WebApp.Models
                     dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
                     while (dr.Read())
                     {
-                        switch(dr["id_questao_ideias"].ToString())
+                        switch (dr["id_questao_ideias"].ToString())
                         {
                             case "1":
                                 {
@@ -1817,7 +1829,7 @@ namespace WebApp.Models
                                     break;
                                 }
                         }
-                        
+
                     }
 
                     cmd.Connection.Close();
@@ -1846,16 +1858,16 @@ namespace WebApp.Models
                 {
                     var sql = " select a.status       " +
                               "   from projetos a     " +
-                              "  where a.id = @idProjeto ";                              
+                              "  where a.id = @idProjeto ";
 
                     MySqlCommand cmd = new MySqlCommand(sql, db._conn);
-                    cmd.Parameters.AddWithValue("@idProjeto", idProjeto);                    
+                    cmd.Parameters.AddWithValue("@idProjeto", idProjeto);
 
                     db.AbrirConexao();
                     MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
                     while (dr.Read())
-                    {                                
-                        status = Convert.ToInt32(dr["status"]);                        
+                    {
+                        status = Convert.ToInt32(dr["status"]);
                     }
                     cmd.Connection.Close();
                     db.FecharConexao();
@@ -1925,7 +1937,7 @@ namespace WebApp.Models
                         "and id_questao_ideias = @idQuestaoIdeia";
                     using (MySqlCommand cmd = new MySqlCommand(sql, db._conn))
                     {
-                        db.AbrirConexao();                        
+                        db.AbrirConexao();
                         cmd.Parameters.AddWithValue("@textoideia", textoideia);
                         cmd.Parameters.AddWithValue("@idProjeto", idProjeto);
                         cmd.Parameters.AddWithValue("@idQuestaoIdeia", idQuestaoIdeia);
@@ -1961,7 +1973,7 @@ namespace WebApp.Models
 
                     MySqlCommand cmd = new MySqlCommand(sql, db._conn);
                     cmd.Parameters.AddWithValue("@id", idIdeia);
-                    
+
                     db.AbrirConexao();
                     MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
                     while (dr.Read())
@@ -1984,7 +1996,7 @@ namespace WebApp.Models
                 db.FecharConexao();
             }
 
-        }       
+        }
 
         public string EditLinkPit(int idProjeto, string linkPit)
         {
@@ -2029,7 +2041,7 @@ namespace WebApp.Models
                 try
                 {
                     var sql = "select * from hash_registro where hash = @hash";
-                              
+
                     MySqlCommand cmd = new MySqlCommand(sql, db._conn);
                     cmd.Parameters.AddWithValue("@hash", hash);
                     db.AbrirConexao();

@@ -48,8 +48,8 @@ namespace WebApp.Models.UserModels
                           "  avaliacao_ideias a                                                                      " +
                           "  inner join projetos p on p.id = a.id_projeto                                            " +
                           "  inner join questoes_avaliacao_ideias q on q.id = a.id_questao_avaliacao_ideias          " +
-                          "  where                                                                                   " +
-                          "  p.id_usuario = @usuario                                                                 " +
+                          "  where p.id_usuario = @usuario                                                           " +
+                          "    and q.ativo      = 'S'                                                                " +
                           " group by p.id,                                                                           " +
                           "       p.nome_projeto,                                                                    " +
                           "       q.letra                                                                            " +
