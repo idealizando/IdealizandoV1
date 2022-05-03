@@ -5003,6 +5003,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Files_PDF\" />
     <Folder Include="Logs\" />
     <Folder Include="Views\api\" />
     <Folder Include="Views\Base\" />
