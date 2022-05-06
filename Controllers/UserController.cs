@@ -112,15 +112,28 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult SalvarInformacoesAdm(string nome, string perfil, string nivelAcesso, string idUser)
+        public ActionResult SalvarInformacoesAdm(string nome, string perfil, string nivelAcesso, string idUser, HttpPostedFileBase file)
         {
             try
             {
+
+                System.Guid guid = System.Guid.NewGuid();
+                string[] extensaoImagem = file.FileName.Split('.');
+                string novoNomeImagem = guid.ToString();
+                string novoExtensaoImagem = extensaoImagem[extensaoImagem.Length - 1];
+
+                string path = Path.Combine(Server.MapPath("~/images/Profile/"), novoNomeImagem);
+                path += "." + novoExtensaoImagem;
+
+                file.SaveAs(path);
+
+
                 var newuser = new User().GetUsuario(idUser);
                 newuser.NOME = nome.Trim();
                 newuser.ROLE = perfil.ToUpper().Trim();
                 newuser.NIVELACESSO = nivelAcesso;
-                //newuser.AtualizarImagem(newuser);
+                newuser.URLIMAGEM = "../../images/Profile/" + novoNomeImagem + "." + novoExtensaoImagem;
+                newuser.AtualizarImagem(newuser);
                 newuser.AtualizarUser(newuser);
                 
             }

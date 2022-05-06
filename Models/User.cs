@@ -785,6 +785,7 @@ namespace WebApp.Models
                     throw ex;
                 }
 
+                /*
                 if (urlAtual.Contains("https://platform-lookaside.fbsbx.com/"))
                 {
                     atualiza = true;
@@ -793,9 +794,11 @@ namespace WebApp.Models
                 {
                     atualiza = true;
                 }
+                */
+                atualiza = true;
 
 
-                if(atualiza)
+                if (atualiza)
                 {
                     try
                     {

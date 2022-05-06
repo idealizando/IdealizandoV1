@@ -243,7 +243,6 @@
 .questoes_avaliacao_ideias {
     display: flex;
     width: auto;
-    height: 35px;
     border-radius: 10px;
     margin: 0 auto;
     margin-top: 10px;
@@ -372,4 +371,10 @@
 #myTabContent .table-result {
     border: 1px solid #dee2e6;
     border-radius: 3px;
+}
+
+
+
+.x_panel {
+    width:410px !important;
 }

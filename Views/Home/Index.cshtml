@@ -41,7 +41,7 @@
         @{ int j = 0;
             for (int i = 1; i <= Convert.ToInt32(ViewBag.MediaPontuacaoFeedbacks.Data.Count); i++)
             {
-                <div class="col-md-4 col-sm-6  widget_tally_box">
+                <div class="col-md-3 col-sm-6  widget_tally_box">
 
                     <div class="x_panel">
                                 <div class="x_title">                                                                        
@@ -75,6 +75,9 @@
                             <div id="graph_bar_home_@ViewBag.InfoCards.Data[j].ID" style="width:100%; height:200px;"></div>
                         </div>
                     </div>
+                </div>
+
+                <div class="col-md-1 col-sm-1">
                 </div>
 
                 j = j + 5;
