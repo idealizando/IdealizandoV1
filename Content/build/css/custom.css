@@ -3924,7 +3924,9 @@ ul.project_files li a i {
   border: solid 2px rgba(195, 194, 196, 0.8);
   font-family: sans-serif;
   font-size: 12px;
-  text-align: center; }
+  text-align: center; 
+  margin-top: 190px;
+}
 
 .morris-hover.morris-default-style .morris-hover-row-label {
   font-weight: bold;
