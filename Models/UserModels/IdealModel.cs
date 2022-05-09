@@ -15,7 +15,8 @@ namespace WebApp.Models.UserModels
         public string ORDEM { get; set; }
         public Int32 QNTDFEEDBACK { get; set; }
         public Double MEDIA_LETRA { get; set; }
-        
+        public string LEGENDA_GRAFICO { get; set; }
+
 
         public IdealModel()
         {
@@ -25,6 +26,7 @@ namespace WebApp.Models.UserModels
             ORDEM = "";
             QNTDFEEDBACK = 0;
             MEDIA_LETRA = 0;
+            LEGENDA_GRAFICO = "";
         }
 
 
@@ -43,11 +45,13 @@ namespace WebApp.Models.UserModels
                     sql = " select p.id,                                                                             " +
                           "        q.letra,                                                                          " +
                           "        sum(a.pontuacao) pontuacao,                                                       " +
-                          "        q.ordem                                                                           " +
+                          "        q.ordem,                                                                          " +
+                          "        l.legenda                                                                         " +
                           "        from                                                                              " +
                           "  avaliacao_ideias a                                                                      " +
                           "  inner join projetos p on p.id = a.id_projeto                                            " +
                           "  inner join questoes_avaliacao_ideias q on q.id = a.id_questao_avaliacao_ideias          " +
+                          "  inner join legenda_grafico l on l.id_questao_ideias = q.id_questao_ideias               " +
                           "  where p.id_usuario = @usuario                                                           " +
                           "    and q.ativo      = 'S'                                                                " +
                           " group by p.id,                                                                           " +
@@ -69,6 +73,7 @@ namespace WebApp.Models.UserModels
                         item.LETRA = dr["letra"].ToString();
                         item.PONTUACAO = Convert.ToDouble(dr["pontuacao"]);
                         item.ORDEM = dr["ordem"].ToString();
+                        item.LEGENDA_GRAFICO = dr["LEGENDA"].ToString();
                         lista.Add(item);
                     }
                     cmd.Connection.Close();
@@ -144,6 +149,7 @@ namespace WebApp.Models.UserModels
                         letrai.LETRA = item.LETRA;
                         letrai.PONTUACAO += item.PONTUACAO;
                         letrai.QNTDFEEDBACK += item.QNTDFEEDBACK;
+                        letrai.LEGENDA_GRAFICO = item.LEGENDA_GRAFICO;
 
                     }
                     else if (item.LETRA == "D")
@@ -151,6 +157,7 @@ namespace WebApp.Models.UserModels
                         letrad.LETRA = item.LETRA;
                         letrad.PONTUACAO += item.PONTUACAO;
                         letrad.QNTDFEEDBACK += item.QNTDFEEDBACK;
+                        letrad.LEGENDA_GRAFICO = item.LEGENDA_GRAFICO;
 
                     }
                     else if (item.LETRA == "E")
@@ -158,6 +165,7 @@ namespace WebApp.Models.UserModels
                         letrae.LETRA = item.LETRA;
                         letrae.PONTUACAO += item.PONTUACAO;
                         letrae.QNTDFEEDBACK += item.QNTDFEEDBACK;
+                        letrae.LEGENDA_GRAFICO = item.LEGENDA_GRAFICO;
 
                     }
                     else if (item.LETRA == "A")
@@ -165,6 +173,7 @@ namespace WebApp.Models.UserModels
                         letraa.LETRA = item.LETRA;
                         letraa.PONTUACAO += item.PONTUACAO;
                         letraa.QNTDFEEDBACK += item.QNTDFEEDBACK;
+                        letraa.LEGENDA_GRAFICO = item.LEGENDA_GRAFICO;
 
                     }
                     else if (item.LETRA == "L")
@@ -172,7 +181,7 @@ namespace WebApp.Models.UserModels
                         letral.LETRA = item.LETRA;
                         letral.PONTUACAO += item.PONTUACAO;
                         letral.QNTDFEEDBACK += item.QNTDFEEDBACK;
-
+                        letral.LEGENDA_GRAFICO = item.LEGENDA_GRAFICO;
                     }
 
                 }

@@ -365,7 +365,7 @@ function CarregarIdeiasConcluidas() {
 
                     let tdMedia = document.createElement('td');
                     tdMedia.setAttribute("class", "text-center");
-                    tdMedia.textContent = data[i].MEDIA == 0 ? "" : data[i].MEDIA;
+                    tdMedia.textContent = data[i].MEDIA == 0 ? "" : leadingZeros(data[i].MEDIA);
                     tr.appendChild(tdMedia);
 
 
@@ -393,6 +393,9 @@ function CarregarIdeiasConcluidas() {
         });
 }
 
+function leadingZeros(nr) {   
+    return Math.abs(nr).toFixed(2);    
+}
 
 function CarregarIdeiasEmAndamento() {
 
@@ -421,6 +424,12 @@ function CarregarIdeiasEmAndamento() {
                     img.setAttribute("src", data[i].URLIMAGEM);
                     tdimg.appendChild(img);
                     tr.appendChild(tdimg);
+
+                    let tddata = document.createElement('td');
+                    let dataCriacao = moment(data[i].DATA_CRIACAO).toDate();
+                    let dataCriacaoFormatada = moment(dataCriacao).format("DD/MM/YYYY hh:mm:ss");
+                    tddata.textContent = dataCriacaoFormatada;
+                    tr.appendChild(tddata);
 
                     let tdnome = document.createElement('td');
                     tdnome.textContent = data[i].NOME_IDEIA;

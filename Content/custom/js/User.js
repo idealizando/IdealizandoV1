@@ -787,35 +787,27 @@ function CarregarIdealUser(idUser) {
                             {
                                 device: data[0].LETRA,
                                 geekbench: data[0].MEDIA_LETRA.toFixed(2),
-                                legenda: 'I. Inovação e Competitividade' +
-                                    ' - Aqui você vai entender se a sua ideia é boa, inovadora, viável, agrega alor e se as pessoas valorizarão os seus resultados.'
+                                legenda: data[0].LEGENDA_GRAFICO
                             },
                             {
                                 device: data[1].LETRA,
                                 geekbench: data[1].MEDIA_LETRA.toFixed(2),
-                                legenda: 'D - Dores e desejos' +
-                                    ' - Aqui você vai entender os problemas que a sua ideia soluciona, a facilidade de como ela atende as dores e desejos do público - alvo, a' +
-                                    ' possibilidade de atender de forma mais simples essas necessidades e as ofertas de terceiros'
+                                legenda: data[1].LEGENDA_GRAFICO
                             },
                             {
                                 device: data[2].LETRA,
                                 geekbench: data[2].MEDIA_LETRA.toFixed(2),
-                                legenda: 'E - Estrutura Estratégica' +
-                                    ' - Descreva aqui o caminho que você vai percorrer para conseguir operacionalizar a ideia.Como vai percorrer esse caminho? Quais são os' +
-                                    'recursos necessários? Quais as responsabilidades das partes envolvidas? A ideia favorece a cultura da inovação?'
+                                legenda: data[2].LEGENDA_GRAFICO
                             },
                             {
                                 device: data[3].LETRA,
                                 geekbench: data[3].MEDIA_LETRA.toFixed(2),
-                                legenda: 'A - Alvos desafiantes, específicos e mensuráveis' +
-                                    ' - Descreva aqui os resultados que a ideia vai conquistar com a sua implementação, seja específico e utilize referências mensuráveis, como' +
-                                    ' por exemplo: aumento de faturamento, aumento da base de clientes, agilidade no tempo de atendimento e etc'
+                                legenda: data[3].LEGENDA_GRAFICO
                             },
                             {
                                 device: data[4].LETRA,
                                 geekbench: data[4].MEDIA_LETRA.toFixed(2),
-                                legenda: 'L - Legado para o Ecossistema' +
-                                    ' Descreva aqui os impactos que a ideia vai deixar como legado, tanto na empresa quanto no seu ecossistema, ao ser implementada por completo'
+                                legenda: data[4].LEGENDA_GRAFICO
                             }
                         ],
                         ymax: 10,
@@ -826,7 +818,6 @@ function CarregarIdealUser(idUser) {
                         barColors: function (row, series, type) {
                             return Grafico.cor(row.y);
                         },
-                        xLabelAngle: 35,
                         hideHover: 'auto',
                         hoverCallback: function (index, options, content, row) {
                             var hover = "<div class='morris-hover-row-label'>" + row.legenda + "</div> " +

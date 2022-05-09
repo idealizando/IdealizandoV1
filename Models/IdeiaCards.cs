@@ -24,7 +24,7 @@ namespace WebApp.Models
         public double MEDIA { get; set; }
         public string LEGENDA_GRAFICO { get; set; }
         public int QTD_QUESTOES_AVALIACAO { get; set; }
-
+        public DateTime DATA_CRIACAO { get; set; }
 
         public IdeiaCards()
         {
@@ -40,6 +40,7 @@ namespace WebApp.Models
             MEDIA = 0;
             LEGENDA_GRAFICO = "";
             QTD_QUESTOES_AVALIACAO = 0;
+            DATA_CRIACAO = DateTime.Now;
         }
 
         public List<IdeiaCards> BuscarIdeiasConcluidas(string idUsuarioLogado)
@@ -139,16 +140,16 @@ namespace WebApp.Models
             {
                 try
                 {
-                    var sql = " select distinct a.id, c.hash, a.nome_projeto, a.id_usuario, a.tipo_projeto   " +
-                              "   from projetos a,                                                           " +
-                              "        hash_registro c                                                       " +
-                              "  where (a.id in (select id_projeto                                           " +
-                              "                    from ideias_cocriadores                                   " +
-                              "                   where email_cocriador = @user_email                        " +
-                              "                     and id_projeto = a.id) or (a.id_usuario = @user_logado)) " +
-                              "    and a.id     = c.id_registro                                              " +
-                              "    and a.status = 1                                                          " +
-                              "  order by a.data_hora desc                                                   ";
+                    var sql = " select distinct a.id, c.hash, a.nome_projeto, a.id_usuario, a.tipo_projeto, a.data_hora   " +
+                              "   from projetos a,                                                                        " +
+                              "        hash_registro c                                                                    " +
+                              "  where (a.id in (select id_projeto                                                        " +
+                              "                    from ideias_cocriadores                                                " +
+                              "                   where email_cocriador = @user_email                                     " +
+                              "                     and id_projeto = a.id) or (a.id_usuario = @user_logado))              " +
+                              "    and a.id     = c.id_registro                                                           " +
+                              "    and a.status = 1                                                                       " +
+                              "  order by a.data_hora desc                                                                ";
 
                     MySqlCommand cmd = new MySqlCommand(sql, db._conn);
                     cmd.Parameters.AddWithValue("@user_email", email);
@@ -163,6 +164,7 @@ namespace WebApp.Models
                         item.IDHASH = dr["hash"].ToString();
                         item.NOME_IDEIA = dr["NOME_PROJETO"].ToString();
                         item.TIPOIDEIA = dr["tipo_projeto"].ToString();
+                        item.DATA_CRIACAO = DateTime.Parse(dr["data_hora"].ToString());
 
                         if (item.TIPOIDEIA != "")
                         {
