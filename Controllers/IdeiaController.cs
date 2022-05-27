@@ -114,6 +114,7 @@ namespace WebApp.Controllers
                     ObjIdeia.LIDER = Session["NOME"].ToString();
                     ObjIdeia.TIPOPROJETO = TipoIdeia;
                     IdIdeiaCadastrada = ObjIdeia.CadastrarIdeia();
+                    
                     if (IdIdeiaCadastrada == 0)
                         return Redirect("https://idealizei.com.br/idealizacao/#planos");
 
@@ -191,6 +192,12 @@ namespace WebApp.Controllers
         public string BuscarRespostaPergunta(string idIdeia, string idPergunta)
         {
             return new IdeiaRespostaPergunta().BuscarRespostaPergunta(idIdeia, idPergunta);
+        }
+
+        [HttpGet]
+        public string BuscarTotalRespostaPergunta(string idIdeia)
+        {
+            return new IdeiaRespostaPergunta().BuscarTotalRespostaPergunta(idIdeia);
         }
 
         [HttpGet]
@@ -328,6 +335,13 @@ namespace WebApp.Controllers
         [HttpPost]
         public JsonResult DeleteDescricaoCardCoCriador(CardCoCriacao item)
         {
+            HttpCookie cookie2 = Request.Cookies["Authorize"];
+            string token = cookie2.Value.ToString();
+            if (!TokenService.TokenOk(token))
+                RedirectToAction("Index", "Login");
+
+            var user = new User().GetUsuario(TokenService.GetId(token));
+            TokenService.RefreshSession(user);
             return Json(new Ideia().DeleteDescricaoCardCoCriador(item), JsonRequestBehavior.AllowGet);
         }
 

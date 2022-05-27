@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebApp.Models;
+using WebApp.Utils;
 
 namespace WebApp.Controllers
 {
@@ -26,10 +27,13 @@ namespace WebApp.Controllers
 
         public bool Autorized()
         {
-            if (HttpContext.Session["UserIsAuthenticated"] != null)
-                return Convert.ToBoolean(HttpContext.Session["UserIsAuthenticated"]);
+            HttpCookie cookie2 = Request.Cookies["Authorize"];
+            string token = cookie2 != null ? cookie2.Value.ToString() : "";
+            if ((HttpContext.Session["UserIsAuthenticated"] != null) && (token != null) && (TokenService.TokenOk(token)))
+                return true;    
             else
                 return false;
+            
         }
     }
 }

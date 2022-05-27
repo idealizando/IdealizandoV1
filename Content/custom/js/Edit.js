@@ -31,9 +31,18 @@
         CarregarAnexos();
 
         $('.concluir-ideia-button').on('click', function () {
+            
             if (!isTagSolucaoSelecionado()) {
                 return;
             }
+
+            Loading.start();
+            if (!VerificarRespostas()) {
+                Messages('warning', 'ATENÇÃO!', 'A responstas para as perguntas são obrigatórias!');
+                Loading.done();
+                return;
+            }
+            Loading.done();
 
             let id_ideia = $('#id_ideia').html();
             if ($('#nome_ideia').html().trim() == "") {
@@ -1095,3 +1104,39 @@ function CarregarAnexos() {
     );
 }
 
+function VerificarRespostas() {
+
+    let retorno = true;
+    let cont = 0;
+    $('.resposta_pergunta').each(function (key, value) {
+        cont++;
+    });
+
+
+    let id_ideia = $('#id_ideia').html();
+        
+    $.ajax(
+        {
+            type: 'GET',
+            url: $URL_PRINCIPAL + 'Ideia/BuscarTotalRespostaPergunta',
+            data: { idIdeia: id_ideia },
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            datatype: 'json',
+            beforeSend: function (xhr) {
+            },
+            success: function (data) {
+
+                if (parseInt(data) < cont) {
+                    retorno = false;
+                }
+                    
+            },
+            error: function () {
+                Messages('error');
+            }
+        });
+
+
+    return retorno;
+}

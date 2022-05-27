@@ -116,5 +116,44 @@ namespace WebApp.Models
                 db.FecharConexao();
             }
         }
+
+        public string BuscarTotalRespostaPergunta(string idIdeia)
+        {
+            var db = new ClassDb();
+            string resposta = "0";
+            try
+            {
+                try
+                {
+                    var sql = "select count(resposta) qtd from cadastro_ideias where id_projeto = @id_projeto and trim(resposta) <> ''";
+
+                    MySqlCommand cmd = new MySqlCommand(sql, db._conn);
+                    cmd.Parameters.AddWithValue("@id_projeto", idIdeia);
+
+                    db.AbrirConexao();
+                    MySqlDataReader dr;
+
+                    dr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+                    while (dr.Read())
+                    {
+                        resposta = dr["qtd"].ToString();
+                    }
+
+                    cmd.Connection.Close();
+                    db.FecharConexao();
+
+                    return resposta;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            finally
+            {
+                db.FecharConexao();
+            }
+        }
     }
 }

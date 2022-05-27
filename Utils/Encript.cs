@@ -6,6 +6,8 @@ namespace WebApp.Utils
 {
     public class Encript
     {
+        public static string Secret = "08afd6f9ae0c6017d105b4ce580de885";
+
         public string RetornarMD5(string Senha)
         {
             using (MD5 md5Hash = MD5.Create())
