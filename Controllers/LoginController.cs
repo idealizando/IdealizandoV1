@@ -20,7 +20,6 @@ namespace WebApp.Controllers
                 return RedirectToAction("Index", "Home");
             else
             {
-
                 if (HttpContext.Session["IdIdeiaCocriador"] == null && HttpContext.Session["IdIdeiaAvaliador"] == null)
                     LimparSession();
                 return View();
@@ -37,6 +36,13 @@ namespace WebApp.Controllers
             }
             else
             {
+                HttpCookie cookie = new HttpCookie("Authorize");
+                DateTime dtNow = DateTime.Now;
+                TimeSpan tsMinute = new TimeSpan(0, 0, 1440, 0);
+                cookie.Expires = dtNow + tsMinute;
+                cookie.Value = TokenService.GenerateToken(user);
+                Response.Cookies.Add(cookie);
+
                 CriarSessionUser(newuser);
                 ViewBag.User = newuser;
                 
@@ -69,7 +75,7 @@ namespace WebApp.Controllers
                 else
                     user.AtualizarImagem(newUser);
 
-                    CriarSessionUser(newUser);
+                CriarSessionUser(newUser);
                 ViewBag.User = newUser;
                 
                 if((HttpContext.Session["IdIdeiaCocriador"] != null) 
@@ -173,6 +179,7 @@ namespace WebApp.Controllers
 
         public void CriarSessionUser(User user)
         {
+            
             HttpContext.Session["UserIsAuthenticated"] = true;
             HttpContext.Session["Id"] = user.ID;
             HttpContext.Session["Nome"] = user.NOME;
@@ -186,12 +193,16 @@ namespace WebApp.Controllers
             HttpContext.Session["master_qtdUsuarios"] = sessionDefault.QTD_USUARIOS;
             HttpContext.Session["master_qtdIdeias"] = sessionDefault.QTD_IDEIAS;
             HttpContext.Session["master_qtdAvaliacoes"] = sessionDefault.QTD_AVALIACOES;
+            
+
         }
         
         public void LimparSession()
         {
             HttpContext.Session.Clear();
             HttpContext.Response.Cookies.Clear();
+            Response.Cookies["Authorize"].Expires = DateTime.Now.AddDays(-1);
+
             FormsAuthentication.SignOut();
         }
 
