@@ -144,7 +144,7 @@ namespace WebApp.Models
             try
             {
 
-                cadastrarPergustasAvaliacao(idprojeto);
+                cadastrarPergustasAvaliacao(idprojeto, HttpContext.Current.Session["Email"].ToString());
                 HttpContext.Current.Session["IdIdeiaCadastrada"] = idprojeto;
                 return idprojeto;
             }
@@ -2087,7 +2087,7 @@ namespace WebApp.Models
             }
         }
 
-        public void cadastrarPergustasAvaliacao(Int64 idprojeto)
+        public void cadastrarPergustasAvaliacao(Int64 idprojeto, string emailAvaliador)
         {
             var db = new ClassDb();
             try
@@ -2098,7 +2098,7 @@ namespace WebApp.Models
                 {
                     db.AbrirConexao();
 
-                    cmdBusca.Parameters.AddWithValue("@email_usuario", HttpContext.Current.Session["Email"].ToString());
+                    cmdBusca.Parameters.AddWithValue("@email_usuario", emailAvaliador);
                     MySqlDataReader drBusca = cmdBusca.ExecuteReader(CommandBehavior.CloseConnection);
                     while (drBusca.Read())
                     {
@@ -2117,7 +2117,7 @@ namespace WebApp.Models
                         db.AbrirConexao();
                         for (int i = 0; i < 5; i++)
                         {
-                            cmd.Parameters.AddWithValue("@email_avaliador", HttpContext.Current.Session["Email"].ToString());
+                            cmd.Parameters.AddWithValue("@email_avaliador", emailAvaliador);
                             cmd.Parameters.AddWithValue("@id_projeto", idprojeto);
                             cmd.Parameters.AddWithValue("@data_hora", DateTime.Now);
                             switch (i)

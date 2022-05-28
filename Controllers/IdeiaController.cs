@@ -255,7 +255,7 @@ namespace WebApp.Controllers
         }
     
         public JsonResult EnviarEmail(EmailParametros Model)
-        {
+        {                        
             var listEmails = Model.EMAIL_DESTINATARIO.Split(',');
             bool enviado = false;
             var mail = new Mail()
@@ -272,6 +272,9 @@ namespace WebApp.Controllers
             {
                 try
                 {
+                    if (Model.TIPO_ENVIO == "AVALIACAO")
+                        cadastraAvaliador(Model.ID_IDEIA, item.Trim());
+
                     mail.EMAIL_DESTINATARIO = item.Trim();
                     enviado = mail.EnviarEmail();
                 }catch(Exception ex)
@@ -281,6 +284,11 @@ namespace WebApp.Controllers
             }
             
             return Json(enviado, JsonRequestBehavior.AllowGet);
+        }
+
+        private void cadastraAvaliador(string idIdeia, string emailAvaliador)
+        {
+            new Ideia().cadastrarPergustasAvaliacao(Convert.ToInt64(idIdeia), emailAvaliador);
         }
 
         [HttpGet]

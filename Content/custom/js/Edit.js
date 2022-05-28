@@ -38,7 +38,7 @@
 
             Loading.start();
             if (!VerificarRespostas()) {
-                Messages('warning', 'ATENÇÃO!', 'A responstas para as perguntas são obrigatórias!');
+                Messages('warning', 'ATENÇÃO!', 'A respostas para as perguntas são obrigatórias!');
                 Loading.done();
                 return;
             }

@@ -23,7 +23,9 @@
                                          "Acesse  " + caminho_compartilhar + " e ajude a idealizar essa ideia. \n " +
                                          "E-mail automático, não retorne." + '"';
         } else {
-            ObjEmail += '"ASSUNTO":"'  + "Link Avaliador Idealizei" + '",';
+            ObjEmail += '"ASSUNTO":"' + "Link Avaliador Idealizei" + '",';
+            ObjEmail += '"ID_IDEIA":"' + id_ideia + '",';
+            ObjEmail += '"TIPO_ENVIO":"' + tipo_pagina + '",';
             ObjEmail += '"MENSAGEM":"' + "Olá, \n Você foi escolhido por {0} para cocriar uma ideia na Plataforma(?) Idealizei. \n " +
                                          "Sua ajuda é muito importante para {0}. \n " +
                                          "Acesse  " + caminho_compartilhar + " e ajude a avaliar essa ideia. \n " + 
