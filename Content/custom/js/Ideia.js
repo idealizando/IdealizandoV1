@@ -17,10 +17,19 @@
     $("#linkCompartilharIdeia").text($URL_PRINCIPAL);
 
     $('.btn-prox_nv1').on("click", function () {
+        let nomeIdeia = $('#input_nome_ideia').val();
+        if (nomeIdeia.trim() == '') {
+            Messages('warning', 'ATENÇÃO!', 'Obrigatório informar o nome da ideia!');
+            $('#input_nome_ideia').focus();            
+            return;
+        }
+
         TipoIdeia = $(this).attr("data-valor");
 
         $(".ideia_visible_nv1").addClass('itens_invisible');
         $(".ideia_visible_nv2").removeClass('itens_invisible');
+
+        window.location.href = $URL_PRINCIPAL + 'Ideia/Edit?idIdeia=0&TipoIdeia=1&nomeIdeia=' + nomeIdeia;
     });
 
     $('.btn-prox_nv2').on("click", function () {

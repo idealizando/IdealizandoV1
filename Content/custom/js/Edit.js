@@ -543,6 +543,12 @@ function SalvarCabecalho() {
     let id_ideia = $('#id_ideia').html();
     let nome_ideia = $('#InputTextoIdeia').val();
 
+    if (nome_ideia.trim() == '') {
+        Messages('warning', 'ATENÇÃO!', 'Obrigatório informar o nome da ideia!');
+        $('#InputTextoIdeia').focus();
+        return;
+    }
+
     let ObjIdeia = '{';
     ObjIdeia += '"ID":"' + id_ideia + '",';
     ObjIdeia += '"NOMEIDEIA":"' + nome_ideia + '"';
@@ -754,8 +760,12 @@ function CadastrarRespostaPergunta() {
                     $('#resposta_pergunta_' + id_questao).html(resposta_pergunta);
 
                     $('#img_loading_pergunta_' + id_questao).attr("style", "display:none;");
+                } else if (data == 'Máximo de 800 caracteres!')
+                {
+                    Messages('warning', 'ATENÇÃO!', data);
+                    $('#img_loading_pergunta_' + id_questao).attr("style", "display:none;");
                 }
-                else {
+                else {                    
                     Messages('warning', 'ATENÇÃO!', 'Tivemos problemas ao salvar, tente mais tarde.');
                 }
 
@@ -924,6 +934,12 @@ function AddCard(idIdeia, id_pergunta, desc) {
                 $('#img_loading_pergunta_card_' + id_pergunta).attr("style", "display:block;");
             },
             success: function (data) {
+                if (data == 'Máximo de 400 caracteres!') {
+                    Messages('warning', 'ATENÇÃO!', data);
+                    $('#img_loading_pergunta_card_' + id_pergunta).attr("style", "display:none;");
+                    return;
+                }
+
                 $('.btn-fechar-modal').click();
 
                 Messages('success', 'SUCESSO!', 'Adicionado com sucesso.');
@@ -955,6 +971,12 @@ function EditCard(idIdeia, idCard, idPergunta, desc) {
                 $('#img_loading_pergunta_card_' + idPergunta).attr("style", "display:block;");
             },
             success: function (data) {
+                if (data == 'Máximo de 400 caracteres!') {
+                    Messages('warning', 'ATENÇÃO!', data);
+                    $('#img_loading_pergunta_card_' + idPergunta).attr("style", "display:none;");
+                    return;
+                }
+
                 Messages('success', 'SUCESSO!', 'Alteração salva com sucesso.');
 
                 CarregarCadsCoCriacaoPorPergunta(idIdeia, idPergunta);

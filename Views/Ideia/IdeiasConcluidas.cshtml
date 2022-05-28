@@ -20,23 +20,7 @@
         @{
             for (int i = 0; i < listaIdeiasCount; i++)
             {
-                string caminhoImagem = "";
-                if (ViewBag.IdeiasConcluidas[i].TIPOPROJETO == "1")
-                {
-                    caminhoImagem = "/images/icon_ideia_negocio.png";
-                }
-                else if (ViewBag.IdeiasConcluidas[i].TIPOPROJETO == "2")
-                {
-                    caminhoImagem = "/images/icon_ideia_produto.png";
-                }
-                else if (ViewBag.IdeiasConcluidas[i].TIPOPROJETO == "3")
-                {
-                    caminhoImagem = "/images/icon_ideia_processo.png";
-                }                
-                else
-                {
-                    caminhoImagem = "/images/Ativo 30.png";
-                }
+                string caminhoImagem = "/images/icon_pages.png";               
 
                 <div class="col-3 ideia_diversas">
                     <span>@ViewBag.IdeiasConcluidas[i].NOMEPROJETO</span>

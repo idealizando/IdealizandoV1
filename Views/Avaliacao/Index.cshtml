@@ -40,7 +40,7 @@
 
                                     <div class="x_panel" >
                                         <div class="x_title">
-                                            <span>Nome idea:</span>
+                                            <span>Nome ideia:</span>
                                             <h2 style="font-weight: bold;">@ViewBag.InfoCardsIdeiasAvaliadas.Data[j].NOME_IDEIA</h2>
                                             <span>Média nota:</span>
                                             <h2 style="font-weight: bold;">@ViewBag.MediaPontuacao.Data[i - 1].MEDIA</h2>
@@ -106,24 +106,8 @@
                                         <tbody>
                                             @foreach (var item in ViewBag.ListaIdeias.Data)
                                             {
-                                                string caminhoImagem = "";
-                                                if (item.TIPOPROJETO == "1")
-                                                {
-                                                    caminhoImagem = "/images/icon_ideia_negocio.png";
-                                                }
-                                                else if (item.TIPOPROJETO == "2")
-                                                {
-                                                    caminhoImagem = "/images/icon_ideia_produto.png";
-                                                }
-                                                else if (item.TIPOPROJETO == "3")
-                                                {
-                                                    caminhoImagem = "/images/icon_ideia_processo.png";
-                                                }
-                                                else
-                                                {
-                                                    caminhoImagem = "/images/Ativo 30.png";
-                                                }
-
+                                                string caminhoImagem = "/images/icon_pages.png";
+                                               
                                                 <tr>
                                                     <td><img src=@caminhoImagem title="ideia" alt="ideia" style="width:40px;" /></td>
                                                     <td>@item.NOMEPROJETO</td>                                                    
