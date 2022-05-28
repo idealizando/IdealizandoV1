@@ -97,7 +97,7 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(string idIdeia, string TipoIdeia)
+        public ActionResult Edit(string idIdeia, string TipoIdeia, string nomeIdeia)
         {
             StartController("IdeiaController", "Edit");
 
@@ -113,6 +113,7 @@ namespace WebApp.Controllers
                     ObjIdeia.STATUS = "1";
                     ObjIdeia.LIDER = Session["NOME"].ToString();
                     ObjIdeia.TIPOPROJETO = TipoIdeia;
+                    ObjIdeia.NOMEPROJETO = nomeIdeia;
                     IdIdeiaCadastrada = ObjIdeia.CadastrarIdeia();
                     
                     if (IdIdeiaCadastrada == 0)
@@ -183,9 +184,14 @@ namespace WebApp.Controllers
         }
 
         [HttpPost]
-        public bool CadastrarRespostaPergunta(IdeiaRespostaPergunta dados)
+        public string CadastrarRespostaPergunta(IdeiaRespostaPergunta dados)
         {
-            return new IdeiaRespostaPergunta().CadastrarPergunta(dados);
+            if (dados.RESPOSTA.Length > 800)
+            {
+                return "Máximo de 800 caracteres!";
+            }
+
+            return new IdeiaRespostaPergunta().CadastrarPergunta(dados).ToString();
         }
 
         [HttpGet]
@@ -249,7 +255,7 @@ namespace WebApp.Controllers
         }
     
         public JsonResult EnviarEmail(EmailParametros Model)
-        {
+        {                        
             var listEmails = Model.EMAIL_DESTINATARIO.Split(',');
             bool enviado = false;
             var mail = new Mail()
@@ -266,6 +272,9 @@ namespace WebApp.Controllers
             {
                 try
                 {
+                    if (Model.TIPO_ENVIO == "AVALIACAO")
+                        cadastraAvaliador(Model.ID_IDEIA, item.Trim());
+
                     mail.EMAIL_DESTINATARIO = item.Trim();
                     enviado = mail.EnviarEmail();
                 }catch(Exception ex)
@@ -275,6 +284,11 @@ namespace WebApp.Controllers
             }
             
             return Json(enviado, JsonRequestBehavior.AllowGet);
+        }
+
+        private void cadastraAvaliador(string idIdeia, string emailAvaliador)
+        {
+            new Ideia().cadastrarPergustasAvaliacao(Convert.ToInt64(idIdeia), emailAvaliador);
         }
 
         [HttpGet]
@@ -322,6 +336,12 @@ namespace WebApp.Controllers
         public JsonResult AddDescricaoCardCoCriador(CardCoCriacao item)
         {
             item.RESPOSTA = item.RESPOSTA.Replace("'", "\"");
+
+            if (item.RESPOSTA.Length > 400)
+            {
+                return Json("Máximo de 400 caracteres!");
+            }
+
             return Json(new Ideia().AddDescricaoCardCoCriador(item, _cores), JsonRequestBehavior.AllowGet);
         }
 
@@ -329,6 +349,12 @@ namespace WebApp.Controllers
         public JsonResult EditDescricaoCardCoCriador(CardCoCriacao item)
         {
             item.RESPOSTA = item.RESPOSTA.Replace("'", "\"");
+
+            if (item.RESPOSTA.Length > 400)
+            {
+                return Json("Máximo de 400 caracteres!");
+            }
+
             return Json(new Ideia().EditDescricaoCardCoCriador(item), JsonRequestBehavior.AllowGet);
         }
 

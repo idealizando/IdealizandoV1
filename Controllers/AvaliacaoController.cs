@@ -41,7 +41,7 @@ namespace WebApp.Controllers
                     idIdeia = idIdeiahash;
 
                 if (Autorized())
-                    new Ideia().cadastrarPergustasAvaliacao(Convert.ToInt64(idIdeia));
+                    new Ideia().cadastrarPergustasAvaliacao(Convert.ToInt64(idIdeia), HttpContext.Session["Email"].ToString());
 
                 HttpContext.Session["IdIdeiaAvaliador"] = idIdeia;
             }

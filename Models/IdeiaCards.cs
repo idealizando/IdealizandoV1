@@ -79,29 +79,7 @@ namespace WebApp.Models
                         item.IDHASH = dr["hash"].ToString();
                         item.NOME_IDEIA = dr["nome_projeto"].ToString();
                         item.TIPOIDEIA = dr["tipo_projeto"].ToString();
-                        if (item.TIPOIDEIA != "")
-                        {
-                            if (Convert.ToInt32(item.TIPOIDEIA) == 1)
-                            {
-                                item.URLIMAGEM = "/images/icon_ideia_negocio.png";
-                            }
-                            else if (Convert.ToInt32(item.TIPOIDEIA) == 2)
-                            {
-                                item.URLIMAGEM = "/images/icon_ideia_produto.png";
-                            }
-                            else if (Convert.ToInt32(item.TIPOIDEIA) == 3)
-                            {
-                                item.URLIMAGEM = "/images/icon_ideia_processo.png";
-                            }
-                            else if (Convert.ToInt32(item.TIPOIDEIA) == 4)
-                            {
-                                item.URLIMAGEM = "/images/Ativo 30.png";
-                            }
-                        }
-                        else
-                        {
-                            item.URLIMAGEM = "/images/Ativo 30.png";
-                        }
+                        item.URLIMAGEM = "/images/icon_pages.png";                        
 
                         Ideias.Add(item);
                     }
@@ -165,30 +143,8 @@ namespace WebApp.Models
                         item.NOME_IDEIA = dr["NOME_PROJETO"].ToString();
                         item.TIPOIDEIA = dr["tipo_projeto"].ToString();
                         item.DATA_CRIACAO = DateTime.Parse(dr["data_hora"].ToString());
-
-                        if (item.TIPOIDEIA != "")
-                        {
-                            if (Convert.ToInt32(item.TIPOIDEIA) == 1)
-                            {
-                                item.URLIMAGEM = "/images/icon_ideia_negocio.png";
-                            }
-                            else if (Convert.ToInt32(item.TIPOIDEIA) == 2)
-                            {
-                                item.URLIMAGEM = "/images/icon_ideia_produto.png";
-                            }
-                            else if (Convert.ToInt32(item.TIPOIDEIA) == 3)
-                            {
-                                item.URLIMAGEM = "/images/icon_ideia_processo.png";
-                            }
-                            else if (Convert.ToInt32(item.TIPOIDEIA) == 4)
-                            {
-                                item.URLIMAGEM = "/images/Ativo 30.png";
-                            }
-                        }
-                        else
-                        {
-                            item.URLIMAGEM = "/images/Ativo 30.png";
-                        }
+                        item.URLIMAGEM = "/images/icon_pages.png";
+                        
                         Lista.Add(item);
 
                     }
