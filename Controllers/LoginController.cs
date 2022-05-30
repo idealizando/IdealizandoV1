@@ -40,8 +40,8 @@ namespace WebApp.Controllers
                 DateTime dtNow = DateTime.Now;
                 TimeSpan tsMinute = new TimeSpan(0, 0, 1440, 0);
                 cookie.Expires = dtNow + tsMinute;
-                //cookie.Value = TokenService.GenerateToken(user);
-                //Response.Cookies.Add(cookie);
+                cookie.Value = TokenService.GenerateToken(user);
+                Response.Cookies.Add(cookie);
 
                 CriarSessionUser(newuser);
                 ViewBag.User = newuser;

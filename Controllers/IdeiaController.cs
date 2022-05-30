@@ -363,12 +363,11 @@ namespace WebApp.Controllers
         {
             HttpCookie cookie2 = Request.Cookies["Authorize"];
             string token = cookie2.Value.ToString();
-            //if (!TokenService.TokenOk(token))
-            if ((Session["UserIsAuthenticated"]) != null && (Convert.ToBoolean(Session["UserIsAuthenticated"])))
+            if (!TokenService.TokenOk(token))
                 RedirectToAction("Index", "Login");
 
-            //var user = new User().GetUsuario(TokenService.GetId(token));
-            //TokenService.RefreshSession(user);
+            var user = new User().GetUsuario(TokenService.GetId(token));
+            TokenService.RefreshSession(user);
             return Json(new Ideia().DeleteDescricaoCardCoCriador(item), JsonRequestBehavior.AllowGet);
         }
 

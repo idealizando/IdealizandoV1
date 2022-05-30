@@ -2,7 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-//using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.Tokens;
 using System.Web;
 using WebApp.Models;
 
@@ -15,7 +15,7 @@ namespace WebApp.Utils
             var tokenHandler = new JwtSecurityTokenHandler();
             
             var key = Encoding.ASCII.GetBytes(Encript.Secret);
-            var tokenDescriptor = new Microsoft.IdentityModel.Tokens.SecurityTokenDescriptor
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
@@ -23,7 +23,7 @@ namespace WebApp.Utils
                     new Claim(ClaimTypes.Email, user.EMAIL)
                 }),
                 Expires = DateTime.UtcNow.AddHours(24),
-                SigningCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key), Microsoft.IdentityModel.Tokens.SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -37,10 +37,10 @@ namespace WebApp.Utils
                 var key = Encoding.ASCII.GetBytes(Encript.Secret);
 
                 var handler = new JwtSecurityTokenHandler();
-                var validations = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                var validations = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key),
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
@@ -62,10 +62,10 @@ namespace WebApp.Utils
                 var key = Encoding.ASCII.GetBytes(Encript.Secret);
 
                 var handler = new JwtSecurityTokenHandler();
-                var validations = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                var validations = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key),
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
@@ -86,10 +86,10 @@ namespace WebApp.Utils
                 var key = Encoding.ASCII.GetBytes(Encript.Secret);
 
                 var handler = new JwtSecurityTokenHandler();
-                var validations = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                var validations = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(key),
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };

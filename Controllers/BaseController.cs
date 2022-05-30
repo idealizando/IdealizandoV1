@@ -29,7 +29,7 @@ namespace WebApp.Controllers
         {
             HttpCookie cookie2 = Request.Cookies["Authorize"];
             string token = cookie2 != null ? cookie2.Value.ToString() : "";
-            if ((HttpContext.Session["UserIsAuthenticated"] != null) && (token != null) && true) //(TokenService.TokenOk(token)))
+            if ((HttpContext.Session["UserIsAuthenticated"] != null) && (token != null) && (TokenService.TokenOk(token)))
                 return true;    
             else
                 return false;
