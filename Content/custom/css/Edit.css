@@ -79,7 +79,8 @@
     margin: 0 auto;
     display: flex;
     align-items:baseline;
-    height:45px;
+    height:50px;
+    margin-top:-2px;
 }
 
 .letra_descricao_superior h4{
