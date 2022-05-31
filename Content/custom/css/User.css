@@ -23,3 +23,31 @@
     cursor:pointer;
     text-decoration: underline;
 }
+
+
+.itens-perfil-user{
+    display:flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+}
+
+@media (min-width: 400px) {
+    .itens-perfil-user {
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 1400px) {
+    .itens-perfil-user {
+        flex-direction: row;
+    }
+
+    .itens-perfil-user-itemA{
+        width:35%;
+    }
+
+    .itens-perfil-user-itemB {
+        width: 65%;
+        margin-left:50px;
+    }
+}
