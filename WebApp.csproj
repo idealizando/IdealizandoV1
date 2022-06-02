@@ -5033,6 +5033,7 @@
     <Content Include="Views\Adm\checkout.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\build\js\jquery.form.js" />
     <TypeScriptCompile Include="Content\vendors\devbridge-autocomplete\src\jquery.autocomplete.d.ts" />
     <TypeScriptCompile Include="Content\vendors\moment\moment.d.ts" />
     <None Include="Files_PDF\teste.pdf" />

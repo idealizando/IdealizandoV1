@@ -216,24 +216,30 @@
                         </div>
                     </div>
 
-                    using (@Html.BeginForm("UploadFile",
-                            "Ideia",
-                            FormMethod.Post,
-                            new { enctype = "multipart/form-data" }))
+                    using (@Ajax.BeginForm("UploadFile", "Ideia", new AjaxOptions() { HttpMethod = "POST"}, new { enctype = "multipart/form-data" }))
                     {
-                        <form>
-                            <table>
-                                <tr style="margin-top: 10px">
-                                    <td>
-                                        <br />
-                                        <br />
-                                        <input type="file" name="myfile">
-                                        <input type="text" name="idideia" style="display:none;" value="@ViewBag.Cabecalho.ID.ToString()" />
-                                        <input class="btn btn-success" type="submit" value="Salvar PDF" />
-                                    </td>
-                                </tr>
-                            </table>
-                        </form>
+                        @Html.AntiForgeryToken()
+                        <table>
+
+                            <tr style="margin-top: 10px">
+                                <td>
+                                    <br />
+                                    <br />
+
+                                    <div class="progress">
+                                        <div class="progress-bar">0%</div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <input type="file" name="myfile" id="file_ideia_upaload" accept=".pdf">
+                                    <input type="text" name="idideia" style="display:none;" value="@ViewBag.Cabecalho.ID.ToString()" />
+                                    <input class="btn btn-success" type="submit" value="Salvar PDF" />
+                                </td>
+                            </tr>
+                        </table>
                     }
 
                     <br />

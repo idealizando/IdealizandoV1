@@ -29,6 +29,7 @@
         CarregarRespostas();
         CarregarTodosCardsCoCriacao();
         CarregarAnexos();
+        UploadFile();
 
         $('.concluir-ideia-button').on('click', function () {
             
@@ -1097,6 +1098,8 @@ function CarregarAnexos() {
 
                 if (data.length > 0) {
 
+                    document.getElementById("grid_anexos_ideia_conteudo").innerHTML = '';
+
                     for (var i = 0; i < data.length; i++) {
                         let tr = document.createElement("tr");
                         let td1 = document.createElement("td");
@@ -1161,4 +1164,42 @@ function VerificarRespostas() {
 
 
     return retorno;
+}
+
+
+function UploadFile() {
+    let bar = $('.progress-bar');
+    let percent = $('.progress-bar');
+    let status = $('#status');
+
+    $('form').ajaxForm({
+        beforeSend: function () {
+            status.empty();
+            let percentValue = '0%';
+            bar.width(percentValue);
+            percent.html(percentValue);
+        },
+        uploadProgress: function (event, position, total, percentComplet) {
+            let percentValue = percentComplet + '%';
+            bar.width(percentValue);
+            percent.html(percentValue);
+        },
+        success: function (d) {
+            let percentValue = '100%';
+            bar.width(percentValue);
+            percent.html(percentValue);
+
+            $('#file_ideia_upaload').val('');
+
+            CarregarAnexos();
+
+            percentValue = '0%';
+            bar.width(percentValue);
+            percent.html(percentValue);
+
+        },
+        complete: function (xhr) {
+            status.html(xhr.responseText);
+        }
+    });
 }

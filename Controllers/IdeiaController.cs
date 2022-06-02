@@ -536,6 +536,7 @@ namespace WebApp.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UploadFile(HttpPostedFileBase myfile, string idideia)
         {
             if (Autorized())
@@ -558,7 +559,7 @@ namespace WebApp.Controllers
                 }
             }
 
-            return RedirectToAction("Edit", "Ideia", new { idIdeia = idideia });
+            return new JsonResult { Data = "Arquivo carregado com sucesso!" };
         }
 
 
