@@ -16,6 +16,11 @@ namespace WebApp.Models
         public string IDHASH { get; set; }
         public string NOME_IDEIA { get; set; }
         public string LETRA { get; set; }
+        public double PONTUACAO_LETRA_I { get; set; }
+        public double PONTUACAO_LETRA_D { get; set; }
+        public double PONTUACAO_LETRA_E { get; set; }
+        public double PONTUACAO_LETRA_A { get; set; }
+        public double PONTUACAO_LETRA_L { get; set; }
         public int PONTUACAO { get; set; }
         public string ORDEM { get; set; }
         public string TIPOIDEIA { get; set; }
@@ -32,6 +37,11 @@ namespace WebApp.Models
             IDHASH = "";
             NOME_IDEIA = "";
             LETRA = "";
+            PONTUACAO_LETRA_I = 0;
+            PONTUACAO_LETRA_D = 0;
+            PONTUACAO_LETRA_E = 0;
+            PONTUACAO_LETRA_A = 0;
+            PONTUACAO_LETRA_L = 0;
             PONTUACAO = 0;
             ORDEM = "";
             TIPOIDEIA = "";
@@ -93,8 +103,39 @@ namespace WebApp.Models
                     foreach (var itemLista in listaIdeiasComMediaAtualizada)
                     {
                         int posicao = Ideias.FindIndex(x => x.ID.ToString() == itemLista.IDPROJETO.ToString());
-                        if(posicao != -1)
+                        if (posicao != -1)
+                        {
                             Ideias[posicao].MEDIA = itemLista.MEDIA;
+
+                            var pontuacaoIdeias = new Ideia().BuscarInfoCardsIdeiasAvaliadas("0", avaliacaoEnum, itemLista.IDPROJETO.ToString());
+                            foreach (var pontuacao in pontuacaoIdeias)
+                            {
+                                if (pontuacao.LETRA == "I")
+                                {
+                                    Ideias[posicao].PONTUACAO_LETRA_I = calculaMediaPontuacao(pontuacao.PONTUACAO, itemLista.QTD_FEEDBACKS, pontuacao.QTD_QUESTOES_AVALIACAO);
+                                }
+
+                                if (pontuacao.LETRA == "D")
+                                {
+                                    Ideias[posicao].PONTUACAO_LETRA_D = calculaMediaPontuacao(pontuacao.PONTUACAO, itemLista.QTD_FEEDBACKS, pontuacao.QTD_QUESTOES_AVALIACAO);
+                                }
+
+                                if (pontuacao.LETRA == "E")
+                                {
+                                    Ideias[posicao].PONTUACAO_LETRA_E = calculaMediaPontuacao(pontuacao.PONTUACAO, itemLista.QTD_FEEDBACKS, pontuacao.QTD_QUESTOES_AVALIACAO);
+                                }
+
+                                if (pontuacao.LETRA == "A")
+                                {
+                                    Ideias[posicao].PONTUACAO_LETRA_A = calculaMediaPontuacao(pontuacao.PONTUACAO, itemLista.QTD_FEEDBACKS, pontuacao.QTD_QUESTOES_AVALIACAO);
+                                }
+
+                                if (pontuacao.LETRA == "L")
+                                {
+                                    Ideias[posicao].PONTUACAO_LETRA_L = calculaMediaPontuacao(pontuacao.PONTUACAO, itemLista.QTD_FEEDBACKS, pontuacao.QTD_QUESTOES_AVALIACAO);
+                                }
+                            }
+                        }
                     }
                     
                     return Ideias;
@@ -108,6 +149,13 @@ namespace WebApp.Models
             {
                 db.FecharConexao();
             }
+        }
+
+        private double calculaMediaPontuacao(double pontuacao, int quantidadeFeedbacks, int qtdQuestoesAvaliacao)
+        {
+            qtdQuestoesAvaliacao = qtdQuestoesAvaliacao / quantidadeFeedbacks;
+
+            return pontuacao / (quantidadeFeedbacks * qtdQuestoesAvaliacao);
         }
 
         public List<IdeiaCards> BuscarIdeiasEmAndamento(string email, string idUser)
