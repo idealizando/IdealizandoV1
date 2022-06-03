@@ -372,6 +372,31 @@ function CarregarIdeiasConcluidas() {
                     tdnome.textContent = data[i].NOME_IDEIA;
                     tr.appendChild(tdnome);
 
+                    let tdI = document.createElement('td');
+                    tdI.setAttribute("class", "text-center");
+                    tdI.textContent = data[i].PONTUACAO_LETRA_I == 0 ? "" : leadingZeros(data[i].PONTUACAO_LETRA_I);
+                    tr.appendChild(tdI);
+
+                    let tdD = document.createElement('td');
+                    tdD.setAttribute("class", "text-center");
+                    tdD.textContent = data[i].PONTUACAO_LETRA_D == 0 ? "" : leadingZeros(data[i].PONTUACAO_LETRA_D);
+                    tr.appendChild(tdD);
+
+                    let tdE = document.createElement('td');
+                    tdE.setAttribute("class", "text-center");
+                    tdE.textContent = data[i].PONTUACAO_LETRA_E == 0 ? "" : leadingZeros(data[i].PONTUACAO_LETRA_E);
+                    tr.appendChild(tdE);
+
+                    let tdA = document.createElement('td');
+                    tdA.setAttribute("class", "text-center");
+                    tdA.textContent = data[i].PONTUACAO_LETRA_A == 0 ? "" : leadingZeros(data[i].PONTUACAO_LETRA_A);
+                    tr.appendChild(tdA);
+
+                    let tdL = document.createElement('td');
+                    tdL.setAttribute("class", "text-center");
+                    tdL.textContent = data[i].PONTUACAO_LETRA_L == 0 ? "" : leadingZeros(data[i].PONTUACAO_LETRA_L);
+                    tr.appendChild(tdL);
+
                     let tdMedia = document.createElement('td');
                     tdMedia.setAttribute("class", "text-center");
                     tdMedia.textContent = data[i].MEDIA == 0 ? "" : leadingZeros(data[i].MEDIA);
